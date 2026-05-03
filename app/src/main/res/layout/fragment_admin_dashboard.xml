@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/buyon_bg_secondary"
-    android:fitsSystemWindows="true"
+    android:background="@color/buyon_bg_primary"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -20,6 +19,7 @@
 
             <!-- Header Banner — orange gradient for premium admin feel -->
             <LinearLayout
+                android:id="@+id/header_banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/buyon_primary"

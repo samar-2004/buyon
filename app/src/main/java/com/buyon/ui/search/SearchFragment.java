@@ -8,6 +8,9 @@ import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -47,6 +50,7 @@ public final class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        applyStatusBarPadding();
         AppDependencies deps = (AppDependencies) requireActivity().getApplication();
         SearchViewModel vm =
                 new ViewModelProvider(this, new BuyonViewModelFactory(deps)).get(SearchViewModel.class);
@@ -186,6 +190,19 @@ public final class SearchFragment extends Fragment {
     private void showWishlistSnack(View view, boolean added) {
         int msgRes = added ? R.string.wishlist_added : R.string.wishlist_removed;
         Snackbar.make(view, msgRes, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void applyStatusBarPadding() {
+        int basePaddingTop = binding.header.getPaddingTop();
+        ViewCompat.setOnApplyWindowInsetsListener(binding.header, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(
+                    v.getPaddingLeft(),
+                    basePaddingTop + bars.top,
+                    v.getPaddingRight(),
+                    v.getPaddingBottom());
+            return insets;
+        });
     }
 
     @Override

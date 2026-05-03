@@ -103,12 +103,17 @@
 
     <!-- Bottom navigation: white background, orange active, gray inactive -->
     <style name="Widget.Buyon.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Buyon.BottomNavigation</item>
         <item name="backgroundTint">@color/buyon_surface</item>
         <item name="itemIconTint">@color/selector_bottom_nav_icon</item>
         <item name="itemTextColor">@color/selector_bottom_nav_icon</item>
         <item name="itemRippleColor">@color/buyon_ripple</item>
         <item name="elevation">@dimen/elevation_floating</item>
         <item name="labelVisibilityMode">labeled</item>
+    </style>
+
+    <style name="ThemeOverlay.Buyon.BottomNavigation" parent="">
+        <item name="colorSecondaryContainer">@color/buyon_primary_ultra_light</item>
     </style>
 
     <!-- Filter chip: gray background, no stroke, rounded -->

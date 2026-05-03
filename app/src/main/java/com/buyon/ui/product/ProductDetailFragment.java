@@ -14,6 +14,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -21,19 +24,25 @@ import androidx.navigation.Navigation;
 import com.bumptech.glide.Glide;
 import com.buyon.core.di.AppDependencies;
 import com.buyon.core.resource.Resource;
+import com.buyon.domain.callback.DomainCallback;
 import com.buyon.domain.model.Product;
 import com.buyon.ui.BuyonViewModelFactory;
 import com.buyon.app.R;
 import com.buyon.app.databinding.FragmentProductDetailBinding;
 import com.buyon.ui.viewmodel.ProductDetailViewModel;
+import com.buyon.ui.viewmodel.WishlistViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
 import java.util.Locale;
 
 public final class ProductDetailFragment extends Fragment {
 
     private FragmentProductDetailBinding binding;
     private int quantity = 1;
+    private String currentProductId;
+    private boolean isWishlisted = false;
+    private Product currentProduct;
 
     @Nullable
     @Override
@@ -48,38 +57,54 @@ public final class ProductDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        applyWindowInsets();
+
         Bundle args = getArguments();
-        String productId = args != null ? args.getString("productId") : null;
-        if (productId == null) {
+        currentProductId = args != null ? args.getString("productId") : null;
+        if (currentProductId == null) {
             Navigation.findNavController(view).navigateUp();
             return;
         }
+
         AppDependencies deps = (AppDependencies) requireActivity().getApplication();
         ProductDetailViewModel vm =
-                new ViewModelProvider(this, new BuyonViewModelFactory(deps, productId))
+                new ViewModelProvider(this, new BuyonViewModelFactory(deps, currentProductId))
                         .get(ProductDetailViewModel.class);
+        WishlistViewModel wishlistVm =
+                new ViewModelProvider(this, new BuyonViewModelFactory(deps))
+                        .get(WishlistViewModel.class);
 
-        if (binding.btnBack != null) {
-            binding.btnBack.setOnClickListener(v ->
-                    Navigation.findNavController(view).navigateUp());
-        }
+        binding.btnBack.setOnClickListener(v ->
+                Navigation.findNavController(view).navigateUp());
 
-        if (binding.btnMinus != null) {
-            binding.btnMinus.setOnClickListener(v -> {
-                if (quantity > 1) {
-                    quantity--;
-                    updateQuantityDisplay();
-                    animateBounce(v);
-                }
-            });
-        }
-        if (binding.btnPlus != null) {
-            binding.btnPlus.setOnClickListener(v -> {
-                quantity++;
+        binding.btnMinus.setOnClickListener(v -> {
+            if (quantity > 1) {
+                quantity--;
                 updateQuantityDisplay();
                 animateBounce(v);
-            });
-        }
+            }
+        });
+        binding.btnPlus.setOnClickListener(v -> {
+            quantity++;
+            updateQuantityDisplay();
+            animateBounce(v);
+        });
+
+        binding.btnWishlist.setOnClickListener(v -> {
+            animateBounce(v);
+            if (isWishlisted) {
+                wishlistVm.removeFromWishlist(currentProductId);
+            } else if (currentProduct != null) {
+                wishlistVm.setWishlisted(currentProduct, true, new DomainCallback<Void>() {
+                    @Override public void onSuccess(Void r) {}
+                    @Override public void onError(Throwable e) {}
+                });
+            }
+        });
+
+        wishlistVm.getWishlistIds().observe(getViewLifecycleOwner(), ids ->
+                updateWishlistIcon(ids));
 
         vm.getProduct().observe(getViewLifecycleOwner(), this::renderProduct);
 
@@ -115,29 +140,55 @@ public final class ProductDetailFragment extends Fragment {
         });
     }
 
+    private void applyWindowInsets() {
+        // Back/wishlist row — push below status bar
+        int navRowBaseTop = binding.navRow.getPaddingTop();
+        ViewCompat.setOnApplyWindowInsetsListener(binding.navRow, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(v.getPaddingLeft(), navRowBaseTop + bars.top,
+                    v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
+
+        // Sticky bar — lift above navigation bar
+        int stickyBaseBottom = binding.stickyBar.getPaddingBottom();
+        ViewCompat.setOnApplyWindowInsetsListener(binding.stickyBar, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+            v.setPadding(v.getPaddingLeft(), v.getPaddingTop(),
+                    v.getPaddingRight(), stickyBaseBottom + bars.bottom);
+            return insets;
+        });
+    }
+
+    private void updateWishlistIcon(List<String> ids) {
+        if (currentProductId == null) return;
+        isWishlisted = ids != null && ids.contains(currentProductId);
+        binding.btnWishlist.setImageResource(
+                isWishlisted ? R.drawable.ic_heart_filled : R.drawable.ic_heart_outline);
+        binding.btnWishlist.setColorFilter(
+                isWishlisted
+                        ? requireContext().getColor(R.color.buyon_primary)
+                        : requireContext().getColor(R.color.buyon_text_primary));
+    }
+
     private void updateQuantityDisplay() {
         if (binding.inputQty != null) {
             binding.inputQty.setText(String.valueOf(quantity));
         }
-        // Update total price shown in sticky bar
         if (binding.priceTotal != null && binding.priceTotal.getTag() instanceof Double) {
             double price = (Double) binding.priceTotal.getTag();
             binding.priceTotal.setText(String.format(Locale.US, "$ %.0f", price * quantity));
         }
     }
 
-    /** Fly-to-cart animation: a fading clone of the product image arcs to the bottom-nav cart icon. */
     private void animateFlyToCart(View productImage) {
         if (getActivity() == null) return;
 
-        // Get product image position on screen
         int[] imgPos = new int[2];
         productImage.getLocationOnScreen(imgPos);
 
-        // Find the root window overlay to draw the flying clone above everything
         ViewGroup decorView = (ViewGroup) getActivity().getWindow().getDecorView();
 
-        // Create a clone ImageView
         ImageView clone = new ImageView(requireContext());
         clone.setScaleType(ImageView.ScaleType.CENTER_CROP);
         Glide.with(this).load(((ImageView) productImage).getDrawable()).into(clone);
@@ -149,13 +200,11 @@ public final class ProductDetailFragment extends Fragment {
         lp.topMargin = imgPos[1] - getStatusBarHeight() + (productImage.getHeight() - size) / 2;
         decorView.addView(clone, lp);
 
-        // Target: bottom-nav cart icon approximate position
         int[] navPos = new int[2];
         View bottomNav = getActivity().findViewById(R.id.bottom_nav);
         if (bottomNav != null) {
             bottomNav.getLocationOnScreen(navPos);
         }
-        // Cart is the 3rd item in a 5-item bottom nav → ~60% from left
         float targetX = navPos[0] + decorView.getWidth() * 0.5f - size / 2f;
         float targetY = navPos[1] - getStatusBarHeight();
 
@@ -212,6 +261,7 @@ public final class ProductDetailFragment extends Fragment {
 
     private void renderProduct(Product p) {
         if (p == null || binding == null) return;
+        currentProduct = p;
         binding.name.setText(p.getName());
         binding.price.setText(String.format(Locale.US, "$ %.0f", p.getPrice()));
         binding.meta.setText(String.format(Locale.US, "%.1f · %d+ sold",
@@ -222,18 +272,17 @@ public final class ProductDetailFragment extends Fragment {
             String loc = p.getLocationLabel();
             if (loc != null && !loc.isEmpty()) {
                 binding.textLocation.setText(loc);
-                binding.textLocation.setVisibility(android.view.View.VISIBLE);
-                if (binding.iconLocation != null) binding.iconLocation.setVisibility(android.view.View.VISIBLE);
+                binding.textLocation.setVisibility(View.VISIBLE);
+                if (binding.iconLocation != null) binding.iconLocation.setVisibility(View.VISIBLE);
             } else {
-                binding.textLocation.setVisibility(android.view.View.GONE);
-                if (binding.iconLocation != null) binding.iconLocation.setVisibility(android.view.View.GONE);
+                binding.textLocation.setVisibility(View.GONE);
+                if (binding.iconLocation != null) binding.iconLocation.setVisibility(View.GONE);
             }
         }
 
         if (binding.priceTotal != null) {
             binding.priceTotal.setVisibility(View.VISIBLE);
             binding.priceTotal.setText(String.format(Locale.US, "$ %.0f", p.getPrice() * quantity));
-            // Store unit price as tag so updateQuantityDisplay can reuse it
             binding.priceTotal.setTag(p.getPrice());
         }
 

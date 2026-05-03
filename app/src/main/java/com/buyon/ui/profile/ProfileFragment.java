@@ -10,6 +10,9 @@ import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -40,6 +43,7 @@ public final class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        applyStatusBarPadding();
         AppDependencies deps = (AppDependencies) requireActivity().getApplication();
         ProfileViewModel vm =
                 new ViewModelProvider(this, new BuyonViewModelFactory(deps))
@@ -129,6 +133,19 @@ public final class ProfileFragment extends Fragment {
         if (p.getPhone()                  != null && !p.getPhone().isEmpty())                  binding.inputPhone.setText(p.getPhone());
         if (p.getDefaultShippingAddress() != null && !p.getDefaultShippingAddress().isEmpty()) binding.inputAddress.setText(p.getDefaultShippingAddress());
         if (p.getEmail()                  != null && !p.getEmail().isEmpty())                  binding.email.setText(p.getEmail());
+    }
+
+    private void applyStatusBarPadding() {
+        int basePaddingTop = binding.profileHeroHeader.getPaddingTop();
+        ViewCompat.setOnApplyWindowInsetsListener(binding.profileHeroHeader, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(
+                    v.getPaddingLeft(),
+                    basePaddingTop + bars.top,
+                    v.getPaddingRight(),
+                    v.getPaddingBottom());
+            return insets;
+        });
     }
 
     @Override

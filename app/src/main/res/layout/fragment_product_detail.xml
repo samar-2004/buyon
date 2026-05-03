@@ -7,58 +7,21 @@
     android:background="@color/buyon_bg_primary"
     android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
-        style="@style/Widget.Buyon.AppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/spacing_s"
-            android:paddingTop="@dimen/spacing_s"
-            android:paddingEnd="@dimen/spacing_l"
-            android:paddingBottom="@dimen/spacing_s">
-
-            <ImageView
-                android:id="@+id/btn_back"
-                android:layout_width="@dimen/icon_xl"
-                android:layout_height="@dimen/icon_xl"
-                android:background="@drawable/bg_circle_surface"
-                android:contentDescription="@null"
-                android:padding="@dimen/spacing_m"
-                android:src="@drawable/ic_arrow_back" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_m"
-                android:layout_weight="1"
-                android:text="@string/product_detail"
-                android:textAppearance="@style/TextAppearance.Buyon.Toolbar"
-                android:textSize="@dimen/text_title" />
-        </LinearLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="120dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:paddingBottom="96dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Product image - full width with gradient overlay -->
+            <!-- ── Hero Image ──────────────────────────────────────────── -->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="280dp">
+                android:layout_height="380dp">
 
                 <ImageView
                     android:id="@+id/image"
@@ -68,33 +31,85 @@
                     android:contentDescription="@null"
                     android:scaleType="centerCrop" />
 
+                <!-- Dark gradient so back/wish buttons stay readable -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bg_scrim_top" />
+
+                <!-- Bottom gradient for smooth transition into sheet -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="bottom"
-                    android:background="@drawable/bg_splash_gradient" />
+                    android:background="@drawable/bg_scrim_bottom" />
+
+                <!-- Floating nav row (insets applied in code) -->
+                <LinearLayout
+                    android:id="@+id/nav_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/spacing_l"
+                    android:paddingTop="@dimen/spacing_l"
+                    android:paddingEnd="@dimen/spacing_l">
+
+                    <ImageView
+                        android:id="@+id/btn_back"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:background="@drawable/bg_circle_surface"
+                        android:contentDescription="@null"
+                        android:padding="@dimen/spacing_s"
+                        android:src="@drawable/ic_arrow_back" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/btn_wishlist"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:background="@drawable/bg_circle_surface"
+                        android:contentDescription="@null"
+                        android:padding="@dimen/spacing_s"
+                        android:src="@drawable/ic_heart_outline" />
+                </LinearLayout>
             </FrameLayout>
 
-            <!-- Product info card -->
+            <!-- ── Content Sheet ───────────────────────────────────────── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/content_horizontal_padding"
-                android:layout_marginTop="-20dp"
-                android:layout_marginEnd="@dimen/content_horizontal_padding"
-                android:background="@drawable/bg_card_glass"
+                android:layout_marginTop="-28dp"
+                android:background="@drawable/bg_sheet_rounded"
                 android:orientation="vertical"
-                android:padding="@dimen/spacing_xl">
+                android:paddingStart="@dimen/screen_horizontal_padding"
+                android:paddingTop="@dimen/spacing_m"
+                android:paddingEnd="@dimen/screen_horizontal_padding"
+                android:paddingBottom="@dimen/spacing_xl">
 
+                <!-- Handle bar -->
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/spacing_l"
+                    android:background="@color/buyon_stroke" />
+
+                <!-- Product name -->
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.Buyon.Title"
-                    android:textSize="@dimen/text_title_large"
+                    android:textAppearance="@style/TextAppearance.Buyon.Headline"
+                    android:textSize="@dimen/text_headline_small"
                     tools:text="Premium Wireless Headphones" />
 
-                <!-- Rating & meta -->
+                <!-- Rating + sold + location row -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -129,31 +144,65 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_xs"
-                        android:text="South Jakarta"
-                        android:textAppearance="@style/TextAppearance.Buyon.BodySmall" />
+                        android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                        tools:text="South Jakarta" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
+                <!-- Price row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_m"
-                    android:textAppearance="@style/TextAppearance.Buyon.Display"
-                    android:textColor="@color/buyon_primary"
-                    tools:text="$ 348" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/spacing_l"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            <!-- Description card -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/content_horizontal_padding"
-                android:layout_marginTop="@dimen/spacing_m"
-                android:layout_marginEnd="@dimen/content_horizontal_padding"
-                android:background="@drawable/bg_card_glass"
-                android:orientation="vertical"
-                android:padding="@dimen/spacing_xl">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Price"
+                            android:textAppearance="@style/TextAppearance.Buyon.Label" />
+
+                        <TextView
+                            android:id="@+id/price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xxs"
+                            android:textAppearance="@style/TextAppearance.Buyon.Display"
+                            android:textColor="@color/buyon_primary"
+                            android:textStyle="bold"
+                            tools:text="$348" />
+                    </LinearLayout>
+
+                    <!-- Stock badge -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_category_chip_selected"
+                        android:paddingStart="@dimen/spacing_m"
+                        android:paddingTop="@dimen/spacing_xs"
+                        android:paddingEnd="@dimen/spacing_m"
+                        android:paddingBottom="@dimen/spacing_xs"
+                        android:text="In Stock"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_label"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_l"
+                    android:layout_marginBottom="@dimen/spacing_l"
+                    android:background="@color/buyon_divider" />
+
+                <!-- Description -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -165,77 +214,96 @@
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_m"
-                    android:lineSpacingMultiplier="1.4"
+                    android:layout_marginTop="@dimen/spacing_s"
+                    android:lineSpacingMultiplier="1.6"
                     android:textAppearance="@style/TextAppearance.Buyon.BodySecondary"
-                    tools:text="High quality product with premium features and exceptional build quality." />
-            </LinearLayout>
+                    tools:text="High quality product with premium features and exceptional build quality. Designed for everyday use with attention to detail." />
 
-            <!-- Quantity selector -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/content_horizontal_padding"
-                android:layout_marginTop="@dimen/spacing_m"
-                android:layout_marginEnd="@dimen/content_horizontal_padding"
-                android:background="@drawable/bg_card_glass"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="@dimen/spacing_l">
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_l"
+                    android:layout_marginBottom="@dimen/spacing_l"
+                    android:background="@color/buyon_divider" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Quantity"
-                    android:textAppearance="@style/TextAppearance.Buyon.TitleSmall"
-                    android:textStyle="bold" />
-
+                <!-- Quantity row -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_input_field"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/spacing_xs">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/btn_minus"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="@drawable/bg_circle_surface"
-                        android:contentDescription="@null"
-                        android:padding="@dimen/spacing_s"
-                        android:src="@drawable/ic_minus" />
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input_qty"
-                        android:layout_width="50dp"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:text="1"
-                        android:textColor="@color/buyon_text_primary"
-                        android:textSize="@dimen/text_title_small"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/btn_plus"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:background="@drawable/bg_circle_primary"
-                        android:contentDescription="@null"
-                        android:padding="@dimen/spacing_s"
-                        android:src="@drawable/ic_add" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quantity"
+                            android:textAppearance="@style/TextAppearance.Buyon.TitleSmall"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xxs"
+                            android:text="Select how many"
+                            android:textAppearance="@style/TextAppearance.Buyon.Label" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_input_field"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/spacing_xs"
+                        android:paddingTop="@dimen/spacing_xs"
+                        android:paddingEnd="@dimen/spacing_xs"
+                        android:paddingBottom="@dimen/spacing_xs">
+
+                        <ImageView
+                            android:id="@+id/btn_minus"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bg_circle_surface"
+                            android:contentDescription="@null"
+                            android:padding="@dimen/spacing_s"
+                            android:src="@drawable/ic_minus" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_qty"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:text="1"
+                            android:textColor="@color/buyon_text_primary"
+                            android:textSize="@dimen/text_title_small"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/btn_plus"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bg_circle_primary"
+                            android:contentDescription="@null"
+                            android:padding="@dimen/spacing_s"
+                            android:src="@drawable/ic_add" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Sticky Add to Cart bar -->
+    <!-- ── Sticky Bottom Bar ───────────────────────────────────────────── -->
     <LinearLayout
+        android:id="@+id/sticky_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -264,11 +332,13 @@
                 android:id="@+id/price_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xxs"
                 android:textAppearance="@style/TextAppearance.Buyon.Title"
                 android:textColor="@color/buyon_primary"
                 android:textSize="@dimen/text_title_large"
+                android:textStyle="bold"
                 android:visibility="gone"
-                tools:text="$ 348"
+                tools:text="$348"
                 tools:visibility="visible" />
         </LinearLayout>
 

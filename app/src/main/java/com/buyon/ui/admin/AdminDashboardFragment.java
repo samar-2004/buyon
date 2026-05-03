@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,6 +66,7 @@ public final class AdminDashboardFragment extends Fragment {
         binding.listRecentOrders.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.listRecentOrders.setAdapter(recentOrdersAdapter);
         setupAnalyticsToggles();
+        applyStatusBarPaddingToHeader();
 
         String now = new SimpleDateFormat("MMM d, yyyy HH:mm", Locale.US).format(new Date());
         binding.lastUpdated.setText(getString(R.string.admin_last_updated_format, now));
@@ -274,6 +278,19 @@ public final class AdminDashboardFragment extends Fragment {
     private int dpToPx(int dp) {
         float density = getResources().getDisplayMetrics().density;
         return (int) (dp * density);
+    }
+
+    private void applyStatusBarPaddingToHeader() {
+        int basePaddingTop = binding.headerBanner.getPaddingTop();
+        ViewCompat.setOnApplyWindowInsetsListener(binding.headerBanner, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(
+                    v.getPaddingLeft(),
+                    basePaddingTop + bars.top,
+                    v.getPaddingRight(),
+                    v.getPaddingBottom());
+            return insets;
+        });
     }
 
     @Override
