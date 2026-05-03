@@ -1,0 +1,286 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ===== BASE LIGHT THEME ===== -->
+    <style name="Base.Theme.Buyon" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/buyon_primary</item>
+        <item name="colorPrimaryDark">@color/buyon_primary_dark</item>
+        <item name="colorPrimaryVariant">@color/buyon_primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/buyon_primary</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/buyon_card</item>
+        <item name="colorOnSurface">@color/buyon_text_primary</item>
+        <item name="android:colorBackground">@color/buyon_bg_primary</item>
+        <item name="colorOnBackground">@color/buyon_text_primary</item>
+        <item name="colorError">@color/buyon_error</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorSurfaceVariant">@color/buyon_surface_2</item>
+        <item name="colorOnSurfaceVariant">@color/buyon_text_secondary</item>
+        <item name="colorOutline">@color/buyon_stroke</item>
+        <item name="android:windowBackground">@color/buyon_bg_primary</item>
+        <!-- Transparent system bars so each screen's header background can
+             extend seamlessly behind the status bar (and nav bar where
+             appropriate). Per-screen tinting is done via fitsSystemWindows. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+
+        <!-- Widget styles -->
+        <item name="textInputStyle">@style/Widget.Buyon.TextInputLayout</item>
+        <item name="materialButtonStyle">@style/Widget.Buyon.Button</item>
+        <item name="bottomNavigationStyle">@style/Widget.Buyon.BottomNavigation</item>
+        <item name="chipStyle">@style/Widget.Buyon.Chip</item>
+        <item name="materialCardViewStyle">@style/Widget.Buyon.Card</item>
+    </style>
+
+    <style name="Theme.Buyon" parent="Base.Theme.Buyon" />
+
+    <!--
+      Cold-start theme for MainActivity only.
+      Android 12+ draws a mandatory system splash from this theme.
+    -->
+    <style name="Theme.Buyon.Splash" parent="Base.Theme.Buyon">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/bg_splash_gradient</item>
+        <item name="android:statusBarColor">@color/buyon_primary</item>
+        <item name="android:navigationBarColor">@color/buyon_primary_dark</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:windowSplashScreenBackground" tools:targetApi="31">
+            @drawable/bg_splash_gradient
+        </item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">
+            @drawable/splash_empty_icon
+        </item>
+        <item name="android:windowSplashScreenIconBackgroundColor" tools:targetApi="31">
+            @android:color/transparent
+        </item>
+    </style>
+
+    <!-- Admin theme -->
+    <style name="Theme.Buyon.Admin" parent="Theme.Buyon" />
+
+    <!-- ====================== WIDGET STYLES ====================== -->
+
+    <!-- Inputs: filled with light gray background, no border, orange focus indicator -->
+    <style name="Widget.Buyon.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">#F2F2F2</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_m</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_m</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_m</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_m</item>
+        <item name="hintTextColor">@color/buyon_text_secondary</item>
+        <item name="android:textColorHint">@color/buyon_text_hint</item>
+        <item name="boxStrokeColor">@color/buyon_stroke_focused</item>
+    </style>
+
+    <!-- Primary button: orange, white text, rounded, slight elevation -->
+    <style name="Widget.Buyon.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/buyon_primary</item>
+        <item name="cornerRadius">@dimen/radius_m</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="elevation">@dimen/elevation_low</item>
+        <item name="rippleColor">@color/buyon_ripple</item>
+    </style>
+
+    <!-- Secondary / outlined button: no border, gray text -->
+    <style name="Widget.Buyon.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">@dimen/radius_m</item>
+        <item name="strokeColor">@color/buyon_stroke</item>
+        <item name="android:textColor">@color/buyon_text_primary</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="rippleColor">@color/buyon_ripple</item>
+    </style>
+
+    <!-- Bottom navigation: white background, orange active, gray inactive -->
+    <style name="Widget.Buyon.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="backgroundTint">@color/buyon_surface</item>
+        <item name="itemIconTint">@color/selector_bottom_nav_icon</item>
+        <item name="itemTextColor">@color/selector_bottom_nav_icon</item>
+        <item name="itemRippleColor">@color/buyon_ripple</item>
+        <item name="elevation">@dimen/elevation_floating</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+
+    <!-- Filter chip: gray background, no stroke, rounded -->
+    <style name="Widget.Buyon.Chip" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/buyon_surface_2</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="android:textColor">@color/buyon_text_secondary</item>
+        <item name="chipCornerRadius">@dimen/radius_xl</item>
+        <item name="rippleColor">@color/buyon_ripple</item>
+    </style>
+
+    <!-- Cards: white background, no stroke, shadow elevation -->
+    <style name="Widget.Buyon.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/buyon_card</item>
+        <item name="cardCornerRadius">@dimen/radius_l</item>
+        <item name="cardElevation">@dimen/elevation_card</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="rippleColor">@color/buyon_ripple</item>
+    </style>
+
+    <!-- ====================== TYPOGRAPHY ====================== -->
+
+    <!-- Display: largest, used for splash and welcome screens -->
+    <style name="TextAppearance.Buyon.Display" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:textColor">@color/buyon_text_primary</item>
+        <item name="android:textSize">@dimen/text_display</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">-0.01</item>
+    </style>
+
+    <!-- Headline: page titles, section heroes -->
+    <style name="TextAppearance.Buyon.Headline" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textColor">@color/buyon_text_primary</item>
+        <item name="android:textSize">@dimen/text_headline</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Toolbar / screen header titles -->
+    <style name="TextAppearance.Buyon.Toolbar" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textColor">@color/buyon_text_primary</item>
+        <item name="android:textSize">@dimen/text_headline_small</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Title: card / section titles -->
+    <style name="TextAppearance.Buyon.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/buyon_text_primary</item>
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Title small: list item names, secondary headings -->
+    <style name="TextAppearance.Buyon.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textColor">@color/buyon_text_primary</item>
+        <item name="android:textSize">@dimen/text_title_small</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <!-- Subtitle: between title and body, often used in greetings -->
+    <style name="TextAppearance.Buyon.Subtitle" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textColor">@color/buyon_text_secondary</item>
+        <item name="android:textSize">@dimen/text_subtitle</item>
+    </style>
+
+    <!-- Body: default reading text -->
+    <style name="TextAppearance.Buyon.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/buyon_text_primary</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <!-- BodySecondary: muted body text for descriptions and metadata -->
+    <style name="TextAppearance.Buyon.BodySecondary" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/buyon_text_secondary</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <!-- BodySmall: meta info under titles -->
+    <style name="TextAppearance.Buyon.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">@color/buyon_text_secondary</item>
+        <item name="android:textSize">@dimen/text_body_small</item>
+    </style>
+
+    <!-- Label: form labels and small headings -->
+    <style name="TextAppearance.Buyon.Label" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textColor">@color/buyon_text_secondary</item>
+        <item name="android:textSize">@dimen/text_label</item>
+    </style>
+
+    <!-- Caption: smallest text — chips, helpers -->
+    <style name="TextAppearance.Buyon.Caption" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textColor">@color/buyon_text_secondary</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+    </style>
+
+    <!-- Price: orange numeric emphasis -->
+    <style name="TextAppearance.Buyon.Price" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/buyon_primary</item>
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Inverse / on-dark surface variants for screens like admin header -->
+    <style name="TextAppearance.Buyon.Headline.Inverse">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.Buyon.Subtitle.Inverse">
+        <item name="android:textColor">#B3FFFFFF</item>
+    </style>
+
+    <style name="TextAppearance.Buyon.Caption.Inverse">
+        <item name="android:textColor">#99FFFFFF</item>
+    </style>
+
+    <!-- ====================== COMPONENT STYLES ====================== -->
+
+    <!-- Toolbar / fragment header container — apply this background to AppBarLayout -->
+    <style name="Widget.Buyon.AppBar" parent="Widget.Material3.AppBarLayout">
+        <item name="android:background">@color/buyon_bg_primary</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <!-- Section header text used inside AppBarLayouts -->
+    <style name="TextAppearance.Buyon.SectionHeader" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textColor">@color/buyon_text_primary</item>
+        <item name="android:textSize">@dimen/text_title_small</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Secondary / outlined button: filled gray background, gray text -->
+    <style name="Widget.Buyon.Button.Secondary" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/buyon_surface_2</item>
+        <item name="cornerRadius">@dimen/radius_m</item>
+        <item name="android:textColor">@color/buyon_text_primary</item>
+        <item name="elevation">@dimen/elevation_none</item>
+        <item name="rippleColor">@color/buyon_ripple</item>
+    </style>
+
+    <!-- Text-only button -->
+    <style name="Widget.Buyon.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/buyon_primary</item>
+        <item name="rippleColor">@color/buyon_primary_alpha</item>
+    </style>
+
+    <!-- Circular icon button background — for header icons -->
+    <style name="Widget.Buyon.IconButton" parent="android:Widget">
+        <item name="android:layout_width">@dimen/icon_button</item>
+        <item name="android:layout_height">@dimen/icon_button</item>
+        <item name="android:background">@drawable/bg_circle_surface</item>
+        <item name="android:padding">@dimen/spacing_s</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <!-- Compact card — used inside lists -->
+    <style name="Widget.Buyon.Card.Compact" parent="Widget.Buyon.Card">
+        <item name="cardCornerRadius">@dimen/radius_l</item>
+        <item name="cardElevation">@dimen/elevation_low</item>
+        <item name="contentPadding">@dimen/spacing_l</item>
+    </style>
+
+    <!-- Surface card — flat, for dashboards -->
+    <style name="Widget.Buyon.Card.Surface" parent="Widget.Buyon.Card">
+        <item name="cardCornerRadius">@dimen/radius_l</item>
+        <item name="cardElevation">@dimen/elevation_low</item>
+        <item name="cardBackgroundColor">@color/buyon_card</item>
+    </style>
+</resources>

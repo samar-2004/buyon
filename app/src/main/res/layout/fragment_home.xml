@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/buyon_bg_primary"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        style="@style/Widget.Buyon.AppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Home toolbar with greeting + notification -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/screen_horizontal_padding"
+            android:paddingTop="@dimen/spacing_l"
+            android:paddingEnd="@dimen/screen_horizontal_padding"
+            android:paddingBottom="@dimen/spacing_m">
+
+            <!-- Logo + greeting row -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_xl"
+                    android:layout_height="@dimen/icon_xl"
+                    android:contentDescription="@null"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/buyon_logo_app" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_m"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Good morning 👋"
+                        android:textAppearance="@style/TextAppearance.Buyon.Label" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name_display"
+                        android:textAppearance="@style/TextAppearance.Buyon.Title"
+                        android:textSize="@dimen/text_title_large" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btn_notification"
+                android:layout_width="@dimen/icon_button"
+                android:layout_height="@dimen/icon_button"
+                android:background="@drawable/bg_circle_surface"
+                android:contentDescription="@string/wishlist_title"
+                android:padding="@dimen/spacing_s"
+                android:src="@drawable/ic_heart_outline" />
+        </LinearLayout>
+
+        <!-- Search bar -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/screen_horizontal_padding"
+            android:paddingEnd="@dimen/screen_horizontal_padding"
+            android:paddingBottom="@dimen/spacing_s">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/search_layout"
+                style="@style/Widget.Buyon.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint"
+                app:boxCornerRadiusBottomEnd="@dimen/radius_pill"
+                app:boxCornerRadiusBottomStart="@dimen/radius_pill"
+                app:boxCornerRadiusTopEnd="@dimen/radius_pill"
+                app:boxCornerRadiusTopStart="@dimen/radius_pill"
+                app:startIconDrawable="@drawable/ic_search"
+                app:startIconTint="@color/buyon_text_secondary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/search_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:textColor="@color/buyon_text_primary" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </FrameLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main content -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/spacing_xxl">
+
+                <!-- Categories section header -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/screen_horizontal_padding"
+                    android:paddingTop="@dimen/spacing_xl"
+                    android:paddingEnd="@dimen/screen_horizontal_padding"
+                    android:text="@string/search_by_category"
+                    android:textAppearance="@style/TextAppearance.Buyon.SectionHeader" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_categories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/content_horizontal_padding"
+                    android:paddingEnd="@dimen/content_horizontal_padding"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_category" />
+
+                <!-- Featured Banner -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="@dimen/screen_horizontal_padding"
+                    android:layout_marginTop="@dimen/spacing_xl"
+                    android:layout_marginEnd="@dimen/screen_horizontal_padding"
+                    app:cardBackgroundColor="@color/buyon_primary"
+                    app:cardCornerRadius="@dimen/radius_xl"
+                    app:cardElevation="@dimen/elevation_card"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/spacing_xl">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="BUYON20"
+                                android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_xs"
+                                android:text="20% OFF your\nfirst order"
+                                android:textAppearance="@style/TextAppearance.Buyon.Title"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_button_white"
+                            android:paddingStart="@dimen/spacing_l"
+                            android:paddingTop="@dimen/spacing_m"
+                            android:paddingEnd="@dimen/spacing_l"
+                            android:paddingBottom="@dimen/spacing_m"
+                            android:text="Shop Now"
+                            android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Trending products section header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/screen_horizontal_padding"
+                    android:paddingTop="@dimen/spacing_xxl"
+                    android:paddingEnd="@dimen/screen_horizontal_padding">
+
+                    <TextView
+                        android:id="@+id/label_trending"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/trending_products"
+                        android:textAppearance="@style/TextAppearance.Buyon.SectionHeader" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/spacing_xs"
+                        android:text="@string/see_all"
+                        android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                        android:textColor="@color/buyon_primary"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Shimmer placeholder (shown while loading) -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_products"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:paddingStart="@dimen/content_horizontal_padding"
+                    android:paddingEnd="@dimen/content_horizontal_padding"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/item_shimmer_product" />
+                        <include layout="@layout/item_shimmer_product" />
+                        <include layout="@layout/item_shimmer_product" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_products"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingStart="@dimen/content_horizontal_padding"
+                    android:paddingEnd="@dimen/content_horizontal_padding"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_product" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

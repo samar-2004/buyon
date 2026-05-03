@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_nav_graph"
+    app:startDestination="@id/adminDashboardFragment">
+
+    <fragment
+        android:id="@+id/adminDashboardFragment"
+        android:name="com.buyon.ui.admin.AdminDashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_admin_dashboard" />
+
+    <fragment
+        android:id="@+id/adminProductsFragment"
+        android:name="com.buyon.ui.admin.AdminProductsFragment"
+        android:label="Products"
+        tools:layout="@layout/fragment_admin_products">
+        <action
+            android:id="@+id/action_adminProducts_to_addProduct"
+            app:destination="@id/adminAddProductFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminAddProductFragment"
+        android:name="com.buyon.ui.admin.AdminAddProductFragment"
+        android:label="Add Product"
+        tools:layout="@layout/fragment_admin_add_product">
+        <argument
+            android:name="productId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminOrdersFragment"
+        android:name="com.buyon.ui.admin.AdminOrdersFragment"
+        android:label="Orders"
+        tools:layout="@layout/fragment_admin_orders" />
+
+    <fragment
+        android:id="@+id/adminUsersFragment"
+        android:name="com.buyon.ui.admin.AdminUsersFragment"
+        android:label="Users"
+        tools:layout="@layout/fragment_admin_users" />
+
+</navigation>

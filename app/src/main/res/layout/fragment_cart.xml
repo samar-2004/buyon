@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/buyon_bg_primary"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_cart"
+        style="@style/Widget.Buyon.AppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/screen_horizontal_padding"
+            android:paddingTop="@dimen/spacing_l"
+            android:paddingEnd="@dimen/screen_horizontal_padding"
+            android:paddingBottom="@dimen/spacing_m">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_cart"
+                    android:textAppearance="@style/TextAppearance.Buyon.Headline" />
+
+                <TextView
+                    android:id="@+id/text_cart_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                    tools:text="3 items · BUYON20 applied" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/banner_promo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/content_horizontal_padding"
+            android:layout_marginEnd="@dimen/content_horizontal_padding"
+            android:layout_marginBottom="@dimen/spacing_s"
+            app:cardBackgroundColor="@color/buyon_surface_2"
+            app:cardCornerRadius="@dimen/radius_m"
+            app:cardElevation="@dimen/elevation_none"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/spacing_m">
+
+                <View
+                    android:layout_width="@dimen/spacing_xs"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/spacing_m"
+                    android:background="@color/buyon_primary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cart_promo_banner"
+                    android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                    android:textColor="@color/buyon_text_primary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-20%"
+                    android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                    android:textColor="@color/buyon_success"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_xxxl"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <View
+            android:id="@+id/empty_icon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/bg_admin_card_purple" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xxl"
+            android:text="Your cart is empty"
+            android:textAppearance="@style/TextAppearance.Buyon.Title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_s"
+            android:gravity="center"
+            android:text="Discover products and add them to your cart"
+            android:textAppearance="@style/TextAppearance.Buyon.BodySecondary" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/content_horizontal_padding"
+        android:paddingTop="@dimen/spacing_s"
+        android:paddingEnd="@dimen/content_horizontal_padding"
+        android:paddingBottom="240dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/item_cart" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bar_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/spacing_m"
+        app:cardBackgroundColor="@color/buyon_surface"
+        app:cardCornerRadius="@dimen/radius_xl"
+        app:cardElevation="@dimen/elevation_floating"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_l">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/checkout_subtotal"
+                    android:textAppearance="@style/TextAppearance.Buyon.BodySmall" />
+
+                <TextView
+                    android:id="@+id/cart_value_subtotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                    android:textColor="@color/buyon_text_primary"
+                    android:textStyle="bold"
+                    tools:text="$ 120.00" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cart_row_discount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/checkout_discount_line"
+                    android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                    android:textColor="@color/buyon_success" />
+
+                <TextView
+                    android:id="@+id/cart_value_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                    android:textColor="@color/buyon_success"
+                    android:textStyle="bold"
+                    tools:text="- $ 24.00" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/checkout_shipping"
+                    android:textAppearance="@style/TextAppearance.Buyon.BodySmall" />
+
+                <TextView
+                    android:id="@+id/cart_value_shipping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
+                    android:textColor="@color/buyon_text_primary"
+                    android:textStyle="bold"
+                    tools:text="$ 5.00" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:layout_marginBottom="@dimen/spacing_m"
+                android:background="@color/buyon_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/checkout_total_due"
+                    android:textAppearance="@style/TextAppearance.Buyon.TitleSmall" />
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Buyon.Headline"
+                    android:textColor="@color/buyon_primary"
+                    tools:text="$ 101.00" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_cart_savings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:gravity="end"
+                android:textAppearance="@style/TextAppearance.Buyon.Label"
+                android:textColor="@color/buyon_success"
+                android:visibility="gone"
+                tools:text="You save $24.00 with BUYON20"
+                tools:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_checkout"
+                style="@style/Widget.Buyon.Button"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/spacing_l"
+                android:text="@string/checkout"
+                android:textSize="@dimen/text_title_small" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/buyon_surface"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/spacing_xxxl">
+
+            <!-- Header — black for premium contrast.
+                 Background bleeds up behind status bar via parent's
+                 fitsSystemWindows + this view sitting at top. -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/spacing_xxxl"
+                android:paddingBottom="@dimen/spacing_xxxl">
+
+                <!-- Avatar: orange circle with logo -->
+                <FrameLayout
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    android:background="@drawable/bg_circle_primary">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@null"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/buyon_logo_app" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_l"
+                    android:text="@string/nav_profile"
+                    android:textColor="@color/black"
+                    android:textAppearance="@style/TextAppearance.Buyon.Headline.Inverse"
+                    android:textSize="@dimen/text_headline_small"
+                    tools:text="John Doe" />
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:textColor="@color/black"
+                    android:textAppearance="@style/TextAppearance.Buyon.Subtitle.Inverse"
+                    android:textSize="@dimen/text_body"
+                    tools:text="john@example.com" />
+            </LinearLayout>
+
+            <!-- Admin Access card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_admin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_horizontal_padding"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:layout_marginEnd="@dimen/content_horizontal_padding"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/buyon_primary_ultra_light"
+                app:cardCornerRadius="@dimen/radius_l"
+                app:cardElevation="@dimen/elevation_low"
+                app:strokeWidth="0dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_l">
+
+                    <View
+                        android:layout_width="@dimen/icon_xl"
+                        android:layout_height="@dimen/icon_xl"
+                        android:background="@drawable/bg_circle_primary" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_m"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Admin Dashboard"
+                            android:textAppearance="@style/TextAppearance.Buyon.TitleSmall"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xxs"
+                            android:text="Manage products, orders &amp; users"
+                            android:textAppearance="@style/TextAppearance.Buyon.Label" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_s"
+                        android:layout_height="@dimen/icon_s"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Theme toggle card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_horizontal_padding"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:layout_marginEnd="@dimen/content_horizontal_padding"
+                app:cardBackgroundColor="@color/buyon_card"
+                app:cardCornerRadius="@dimen/radius_l"
+                app:cardElevation="@dimen/elevation_low"
+                app:strokeWidth="0dp">
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:padding="@dimen/spacing_l">-->
+
+<!--                    <View-->
+<!--                        android:layout_width="@dimen/icon_xl"-->
+<!--                        android:layout_height="@dimen/icon_xl"-->
+<!--                        android:background="@drawable/bg_circle_surface" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/spacing_m"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Dark Mode"-->
+<!--                            android:textAppearance="@style/TextAppearance.Buyon.TitleSmall"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="@dimen/spacing_xxs"-->
+<!--                            android:text="Toggle dark / light theme"-->
+<!--                            android:textAppearance="@style/TextAppearance.Buyon.Label" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <com.google.android.material.switchmaterial.SwitchMaterial-->
+<!--                        android:id="@+id/switch_dark_mode"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:checked="true"-->
+<!--                        android:thumbTint="@color/buyon_primary"-->
+<!--                        android:trackTint="@color/buyon_primary_alpha" />-->
+<!--                </LinearLayout>-->
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Profile form -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_horizontal_padding"
+                android:layout_marginTop="@dimen/spacing_l"
+                android:layout_marginEnd="@dimen/content_horizontal_padding"
+                app:cardBackgroundColor="@color/buyon_card"
+                app:cardCornerRadius="@dimen/radius_l"
+                app:cardElevation="@dimen/elevation_low"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_xl">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Personal Info"
+                        android:textAppearance="@style/TextAppearance.Buyon.TitleSmall"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_name"
+                        style="@style/Widget.Buyon.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_l"
+                        android:hint="@string/display_name">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/buyon_text_primary" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_phone"
+                        style="@style/Widget.Buyon.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_m"
+                        android:hint="Phone">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:textColor="@color/buyon_text_primary" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_address"
+                        style="@style/Widget.Buyon.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_m"
+                        android:hint="@string/shipping_address">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:minLines="2"
+                            android:textColor="@color/buyon_text_primary" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/button_height"
+                        android:layout_marginTop="@dimen/spacing_xl">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_save"
+                            style="@style/Widget.Buyon.Button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/save" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_save"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="@dimen/icon_m"
+                            android:layout_height="@dimen/icon_m"
+                            android:layout_gravity="center"
+                            android:indeterminateTint="@color/white"
+                            android:visibility="gone" />
+                    </FrameLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Sign out button -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/content_horizontal_padding"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:layout_marginEnd="@dimen/content_horizontal_padding"
+                app:cardBackgroundColor="@color/buyon_card"
+                app:cardCornerRadius="@dimen/radius_l"
+                app:cardElevation="@dimen/elevation_low"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:id="@+id/btn_sign_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_l">
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_m"
+                        android:layout_height="@dimen/icon_m"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_logout" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_m"
+                        android:layout_weight="1"
+                        android:text="@string/sign_out"
+                        android:textAppearance="@style/TextAppearance.Buyon.TitleSmall"
+                        android:textColor="@color/buyon_error"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_s"
+                        android:layout_height="@dimen/icon_s"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_arrow_right" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

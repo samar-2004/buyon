@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fills the adaptive foreground layer so transparent logo pixels match the icon base. -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/buyon_launcher_icon_surface" />
+        </shape>
+    </item>
+    <item>
+        <inset
+            android:drawable="@drawable/buyon_logo_app"
+            android:insetLeft="20dp"
+            android:insetTop="20dp"
+            android:insetRight="20dp"
+            android:insetBottom="20dp" />
+    </item>
+</layer-list>

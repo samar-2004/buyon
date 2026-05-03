@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary — Orange accent only -->
+    <color name="buyon_primary">#FF7F11</color>
+    <color name="buyon_primary_dark">#CC6500</color>
+    <color name="buyon_primary_light">#FF9E4A</color>
+    <color name="buyon_primary_ultra_light">#FFF0E0</color>
+    <color name="buyon_primary_alpha">#33FF7F11</color>
+
+    <!-- Launcher icon surface -->
+    <color name="buyon_launcher_icon_surface">#FFFFFF</color>
+
+    <!-- Accent — kept for compatibility dont used that too much in UI -->
+    <color name="buyon_accent">#ACBFA4</color>
+    <color name="buyon_accent_light">#C5D4BE</color>
+    <color name="buyon_gradient_start">#FF7F11</color>
+    <color name="buyon_gradient_end">#CC6500</color>
+
+    <!-- Background System — clean neutral grays -->
+    <color name="buyon_bg_primary">#FFFFFF</color>
+    <color name="buyon_bg_secondary">#F8F8F8</color>
+    <color name="buyon_surface">#FFFFFF</color>
+    <color name="buyon_surface_2">#F5F5F5</color>
+    <color name="buyon_card">#FFFFFF</color>
+    <color name="buyon_card_elevated">#F5F5F5</color>
+
+    <!-- Text — neutral black/gray -->
+    <color name="buyon_text_primary">#000000</color>
+    <color name="buyon_text_secondary">#6B6B6B</color>
+    <color name="buyon_text_hint">#9E9E9E</color>
+    <color name="buyon_text_on_primary">#FFFFFF</color>
+
+    <!-- Borders and Dividers — very subtle -->
+    <color name="buyon_divider">#EEEEEE</color>
+    <color name="buyon_stroke">#E0E0E0</color>
+    <color name="buyon_stroke_focused">#FF7F11</color>
+
+    <!-- Status Colors -->
+    <color name="buyon_success">#2E7D32</color>
+    <color name="buyon_warning">#E65100</color>
+    <color name="buyon_error">#C62828</color>
+    <color name="buyon_error_surface">#FFEBEE</color>
+    <color name="buyon_error_stroke">#EF9A9A</color>
+    <color name="buyon_info">#1565C0</color>
+
+    <!-- Admin Dashboard Cards — black/white system with orange accent for revenue -->
+    <color name="admin_revenue">#FF7F11</color>
+    <color name="admin_revenue_bg">#FFF0E0</color>
+    <color name="admin_orders">#000000</color>
+    <color name="admin_orders_bg">#F5F5F5</color>
+    <color name="admin_users">#000000</color>
+    <color name="admin_users_bg">#F5F5F5</color>
+    <color name="admin_products">#000000</color>
+    <color name="admin_products_bg">#F5F5F5</color>
+
+    <!-- Order Status -->
+    <color name="status_pending">#F59E0B</color>
+    <color name="status_shipped">#1565C0</color>
+    <color name="status_delivered">#2E7D32</color>
+    <color name="status_cancelled">#C62828</color>
+
+    <!-- Overlay and Ripple -->
+    <color name="overlay_dark">#80000000</color>
+    <color name="buyon_ripple">#33FF7F11</color>
+    <color name="buyon_scrim">#CC000000</color>
+
+    <!-- Icon tint -->
+    <color name="buyon_icon_tint">#000000</color>
+
+    <!-- System bar colors — white for clean minimal look -->
+    <color name="buyon_status_bar">#FFFFFF</color>
+    <color name="buyon_nav_bar">#FFFFFF</color>
+
+    <!-- Layout compatibility aliases -->
+    <color name="buyon_surface_light">#FFFFFF</color>
+    <color name="buyon_card_light">#FFFFFF</color>
+    <color name="buyon_text_primary_light">#000000</color>
+    <color name="buyon_text_secondary_light">#6B6B6B</color>
+
+    <!-- On-dark surface text (used for the admin dashboard black header) -->
+    <color name="buyon_text_on_dark_secondary">#B3FFFFFF</color>
+    <color name="buyon_text_on_dark_tertiary">#80FFFFFF</color>
+</resources>

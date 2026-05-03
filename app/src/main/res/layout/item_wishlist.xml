@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_m"
+    app:cardBackgroundColor="@color/buyon_card"
+    app:cardCornerRadius="@dimen/radius_l"
+    app:cardElevation="@dimen/elevation_card"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_l">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:background="@drawable/bg_product_image"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_m"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.Buyon.TitleSmall"
+                android:textStyle="bold"
+                tools:text="Premium Wireless Headphones" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:textAppearance="@style/TextAppearance.Buyon.Price"
+                tools:text="$ 348" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_to_cart"
+                style="@style/Widget.Buyon.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/button_height_small"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="0dp"
+                android:text="@string/add_to_cart"
+                android:textAllCaps="false"
+                android:textSize="@dimen/text_label"
+                app:icon="@drawable/ic_cart"
+                app:iconPadding="@dimen/spacing_xs" />
+
+            <ProgressBar
+                android:id="@+id/progress_add_to_cart"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="@dimen/icon_xs"
+                android:layout_height="@dimen/icon_xs"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:indeterminateTint="@color/buyon_primary"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_remove"
+            android:layout_width="@dimen/icon_xl"
+            android:layout_height="@dimen/icon_xl"
+            android:background="@drawable/bg_circle_surface"
+            android:contentDescription="@string/wishlist_remove"
+            android:padding="@dimen/spacing_s"
+            android:src="@drawable/ic_delete" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
