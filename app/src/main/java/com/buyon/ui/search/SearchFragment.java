@@ -114,9 +114,37 @@ public final class SearchFragment extends Fragment {
                     vm.search(q != null ? q.toString() : "");
                 });
 
+        // Issue 53: personalise greeting with user display name
+        String currentName = deps.authRepository().currentUserEmail();
+        if (binding.labelGreeting != null && currentName != null && !currentName.isEmpty()) {
+            String displayName = currentName.contains("@")
+                    ? currentName.substring(0, currentName.indexOf('@')) : currentName;
+            binding.labelGreeting.setText(getString(R.string.search_greeting_format, displayName));
+            binding.labelGreeting.setVisibility(View.VISIBLE);
+        }
+
         vm.getProducts().observe(getViewLifecycleOwner(), products -> {
+            if (binding == null) return;
+            boolean empty = products == null || products.isEmpty();
             productAdapter.submitList(products);
             productAdapter.setWishlistedIds(localWishlistIds);
+            if (binding.emptySearch != null) {
+                binding.emptySearch.setVisibility(empty ? View.VISIBLE : View.GONE);
+            }
+            if (binding.listProducts != null) {
+                binding.listProducts.setVisibility(empty ? View.GONE : View.VISIBLE);
+            }
+        });
+
+        vm.getLoading().observe(getViewLifecycleOwner(), loading -> {
+            if (binding == null) return;
+            boolean isLoading = Boolean.TRUE.equals(loading);
+            if (binding.progressSearch != null) {
+                binding.progressSearch.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
+            if (isLoading && binding.emptySearch != null) {
+                binding.emptySearch.setVisibility(View.GONE);
+            }
         });
         wishlistVm.getWishlistIds().observe(getViewLifecycleOwner(), ids -> {
             syncLocalWishlist(ids);

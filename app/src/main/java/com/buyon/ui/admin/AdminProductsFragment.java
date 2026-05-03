@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.buyon.domain.model.Product;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,7 +55,7 @@ public final class AdminProductsFragment extends Fragment {
                 product -> new MaterialAlertDialogBuilder(requireContext())
                         .setTitle("Delete Product")
                         .setMessage("Are you sure you want to delete \"" + product.getName() + "\"?")
-                        .setPositiveButton("Delete", (d, w) -> vm.deleteProduct(product.getId()))
+                        .setPositiveButton("Delete", (d, w) -> deleteWithUndo(view, product))
                         .setNegativeButton("Cancel", null)
                         .show());
 
@@ -64,22 +66,26 @@ public final class AdminProductsFragment extends Fragment {
                 Navigation.findNavController(view)
                         .navigate(R.id.action_adminProducts_to_addProduct));
 
+        if (binding.btnEmptyAddProduct != null) {
+            binding.btnEmptyAddProduct.setOnClickListener(v ->
+                    Navigation.findNavController(view)
+                            .navigate(R.id.action_adminProducts_to_addProduct));
+        }
+
         vm.getProducts().observe(getViewLifecycleOwner(), products -> {
-            if (products == null || products.isEmpty()) {
-                binding.empty.setVisibility(View.VISIBLE);
-                binding.listProducts.setVisibility(View.GONE);
-            } else {
-                binding.empty.setVisibility(View.GONE);
-                binding.listProducts.setVisibility(View.VISIBLE);
+            boolean empty = products == null || products.isEmpty();
+            binding.empty.setVisibility(empty ? View.VISIBLE : View.GONE);
+            binding.listProducts.setVisibility(empty ? View.GONE : View.VISIBLE);
+            if (binding.btnEmptyAddProduct != null) {
+                binding.btnEmptyAddProduct.setVisibility(empty ? View.VISIBLE : View.GONE);
+            }
+            if (!empty) {
                 adapter.submitList(products);
             }
         });
 
         vm.getDeleteProductState().observe(getViewLifecycleOwner(), res -> {
             if (res == null) return;
-            if (res.getStatus() == Resource.Status.SUCCESS) {
-                AppErrorHandler.showSuccess(view, "Product deleted.");
-            }
             if (res.getStatus() == Resource.Status.ERROR) {
                 AppErrorHandler.showError(view,
                         AppErrorHandler.getFirebaseErrorMessage(res.getError()));
@@ -92,6 +98,13 @@ public final class AdminProductsFragment extends Fragment {
                         AppErrorHandler.getFirebaseErrorMessage(new Exception(msg)));
             }
         });
+    }
+
+    private void deleteWithUndo(View view, Product product) {
+        vm.deleteProduct(product.getId());
+        Snackbar.make(view, "\"" + product.getName() + "\" deleted", Snackbar.LENGTH_LONG)
+                .setAction("Undo", v -> vm.saveProduct(product))
+                .show();
     }
 
     @Override

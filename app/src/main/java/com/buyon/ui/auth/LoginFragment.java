@@ -2,6 +2,8 @@ package com.buyon.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -246,19 +248,35 @@ public final class LoginFragment extends Fragment {
             navigateToMainDashboard();
             return;
         }
+
+        // Timeout guard: if Firestore hangs for 10 s, fall back to email-based routing.
+        final boolean[] settled = {false};
+        Handler timeoutHandler = new Handler(Looper.getMainLooper());
+        Runnable timeoutRunnable = () -> {
+            if (settled[0] || !isAdded()) return;
+            settled[0] = true;
+            setLoadingState(false);
+            routeAfterRoleResolved(deps, null);
+        };
+        timeoutHandler.postDelayed(timeoutRunnable, 10_000);
+
         deps.userProfileRepository().fetchRole(uid, new DomainCallback<String>() {
             @Override
             public void onSuccess(String role) {
-                if (!isAdded()) return;
+                timeoutHandler.removeCallbacks(timeoutRunnable);
+                if (settled[0] || !isAdded()) return;
+                settled[0] = true;
                 setLoadingState(false);
                 routeAfterRoleResolved(deps, role);
             }
 
             @Override
             public void onError(Throwable error) {
-                if (!isAdded()) return;
+                timeoutHandler.removeCallbacks(timeoutRunnable);
+                if (settled[0] || !isAdded()) return;
+                settled[0] = true;
                 setLoadingState(false);
-                // Firestore unreadable (rules, offline, etc.) — still honor fallback admin email.
+                // Firestore unreadable (rules, offline, etc.) — honor fallback admin email.
                 routeAfterRoleResolved(deps, null);
             }
         });

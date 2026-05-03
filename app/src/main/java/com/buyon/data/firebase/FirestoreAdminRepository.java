@@ -86,6 +86,7 @@ public final class FirestoreAdminRepository implements AdminRepository {
         data.put("categoryId", product.getCategoryId() != null ? product.getCategoryId() : "");
         data.put("rating", product.getRating());
         data.put("soldCount", product.getSoldCount());
+        data.put("stockQuantity", product.getStockQuantity());
         data.put("locationLabel", product.getLocationLabel() != null ? product.getLocationLabel() : "");
 
         if (product.getId() != null && !product.getId().isEmpty()) {

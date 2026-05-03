@@ -120,11 +120,9 @@ public final class ProductDetailFragment extends Fragment {
             binding.inputQty.setText(String.valueOf(quantity));
         }
         // Update total price shown in sticky bar
-        if (binding.priceTotal != null && binding.priceTotal.getTag() != null) {
-            try {
-                double price = (double) binding.priceTotal.getTag();
-                binding.priceTotal.setText(String.format(Locale.US, "$ %.0f", price * quantity));
-            } catch (ClassCastException ignored) {}
+        if (binding.priceTotal != null && binding.priceTotal.getTag() instanceof Double) {
+            double price = (Double) binding.priceTotal.getTag();
+            binding.priceTotal.setText(String.format(Locale.US, "$ %.0f", price * quantity));
         }
     }
 
@@ -219,6 +217,18 @@ public final class ProductDetailFragment extends Fragment {
         binding.meta.setText(String.format(Locale.US, "%.1f · %d+ sold",
                 p.getRating(), p.getSoldCount()));
         binding.description.setText(p.getDescription());
+
+        if (binding.textLocation != null) {
+            String loc = p.getLocationLabel();
+            if (loc != null && !loc.isEmpty()) {
+                binding.textLocation.setText(loc);
+                binding.textLocation.setVisibility(android.view.View.VISIBLE);
+                if (binding.iconLocation != null) binding.iconLocation.setVisibility(android.view.View.VISIBLE);
+            } else {
+                binding.textLocation.setVisibility(android.view.View.GONE);
+                if (binding.iconLocation != null) binding.iconLocation.setVisibility(android.view.View.GONE);
+            }
+        }
 
         if (binding.priceTotal != null) {
             binding.priceTotal.setVisibility(View.VISIBLE);

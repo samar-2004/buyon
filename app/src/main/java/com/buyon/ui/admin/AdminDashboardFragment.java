@@ -1,10 +1,12 @@
 package com.buyon.ui.admin;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -75,18 +77,15 @@ public final class AdminDashboardFragment extends Fragment {
             if (orders == null) return;
             binding.statOrders.setText(String.valueOf(orders.size()));
 
-            // Calculate revenue
+            // Revenue: all orders except cancelled (delivered orders are confirmed income;
+            // pending/processing/shipped represent committed revenue in fulfillment)
             double totalRevenue = 0;
             for (com.buyon.domain.model.Order order : orders) {
-                if (order.getStatus() == com.buyon.domain.model.Order.Status.DELIVERED) {
+                if (order.getStatus() != com.buyon.domain.model.Order.Status.CANCELLED) {
                     totalRevenue += order.getTotal();
                 }
             }
-            if (totalRevenue >= 1000) {
-                binding.statRevenue.setText(String.format(Locale.US, "$%.1fK", totalRevenue / 1000));
-            } else {
-                binding.statRevenue.setText(String.format(Locale.US, "$%.0f", totalRevenue));
-            }
+            binding.statRevenue.setText(formatMoney(totalRevenue));
 
             latestAnalytics = AdminRevenueAnalytics.fromOrders(orders);
             renderRevenueAnalytics();
@@ -204,17 +203,30 @@ public final class AdminDashboardFragment extends Fragment {
         for (int i = 0; i < bars.length; i++) {
             labels[i].setText(labelsForMode[i]);
             double value = chartValues[i];
-            int barHeightDp;
+            int targetHeightPx;
             if (max <= 0) {
-                barHeightDp = minBarDp;
+                targetHeightPx = dpToPx(minBarDp);
             } else {
                 float ratio = (float) (value / max);
-                barHeightDp = (int) (minBarDp + (maxBarDp - minBarDp) * ratio);
+                targetHeightPx = dpToPx((int) (minBarDp + (maxBarDp - minBarDp) * ratio));
             }
-            ViewGroup.LayoutParams lp = bars[i].getLayoutParams();
-            lp.height = dpToPx(barHeightDp);
-            bars[i].setLayoutParams(lp);
-            bars[i].setAlpha(i == bars.length - 1 ? 1f : 0.75f + (0.03f * i));
+            // Animate bar height from current to target
+            final View bar = bars[i];
+            final int finalHeight = targetHeightPx;
+            ViewGroup.LayoutParams lp = bar.getLayoutParams();
+            int startHeight = lp.height > 0 ? lp.height : dpToPx(minBarDp);
+            ValueAnimator animator = ValueAnimator.ofInt(startHeight, finalHeight);
+            animator.setDuration(400);
+            animator.setStartDelay(i * 40L);
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.addUpdateListener(a -> {
+                ViewGroup.LayoutParams params = bar.getLayoutParams();
+                params.height = (int) a.getAnimatedValue();
+                bar.setLayoutParams(params);
+            });
+            animator.start();
+            // Use consistent alpha: latest bar is brightest
+            bars[i].setAlpha(i == bars.length - 1 ? 1f : 0.55f + (0.07f * i));
         }
 
         applyAnalyticsChipState();
@@ -250,6 +262,9 @@ public final class AdminDashboardFragment extends Fragment {
     }
 
     private String formatMoney(double value) {
+        if (value >= 1_000_000) {
+            return String.format(Locale.US, "$%.1fM", value / 1_000_000.0);
+        }
         if (value >= 1000) {
             return String.format(Locale.US, "$%.1fK", value / 1000.0);
         }

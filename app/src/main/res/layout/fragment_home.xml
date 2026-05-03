@@ -46,9 +46,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/text_greeting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Good morning 👋"
+                        android:text="@string/greeting_morning"
                         android:textAppearance="@style/TextAppearance.Buyon.Label" />
 
                     <TextView
@@ -172,7 +173,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="BUYON20"
+                                android:text="@string/home_promo_code"
                                 android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
@@ -181,12 +182,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_xs"
-                                android:text="20% OFF your\nfirst order"
+                                android:text="@string/home_promo_offer"
                                 android:textAppearance="@style/TextAppearance.Buyon.Title"
                                 android:textColor="@color/white" />
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/btn_shop_now"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_button_white"
@@ -194,7 +196,7 @@
                             android:paddingTop="@dimen/spacing_m"
                             android:paddingEnd="@dimen/spacing_l"
                             android:paddingBottom="@dimen/spacing_m"
-                            android:text="Shop Now"
+                            android:text="@string/home_btn_shop_now"
                             android:textAppearance="@style/TextAppearance.Buyon.BodySmall"
                             android:textColor="@color/black"
                             android:textStyle="bold" />

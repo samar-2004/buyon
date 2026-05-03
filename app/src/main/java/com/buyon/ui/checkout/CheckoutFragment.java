@@ -2,6 +2,7 @@ package com.buyon.ui.checkout;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -201,7 +203,12 @@ public final class CheckoutFragment extends Fragment {
 
                     if (addr.isEmpty()) {
                         binding.layoutAddress.setError("Shipping address is required");
-                        binding.layoutAddress.requestFocus();
+                        binding.inputAddress.requestFocus();
+                        InputMethodManager imm = (InputMethodManager)
+                                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (imm != null) {
+                            imm.showSoftInput(binding.inputAddress, InputMethodManager.SHOW_IMPLICIT);
+                        }
                         return;
                     }
                     binding.layoutAddress.setError(null);
@@ -251,10 +258,11 @@ public final class CheckoutFragment extends Fragment {
                                 setOrderButtonLoading(false);
                             }
                             if (res.getStatus() == Resource.Status.SUCCESS && res.getData() != null) {
-                                showSuccessAnimation(
-                                        () ->
-                                                Navigation.findNavController(view)
-                                                        .navigate(R.id.action_checkoutFragment_to_ordersFragment));
+                                showSuccessAnimation(() -> {
+                                    if (!isAdded() || binding == null) return;
+                                    Navigation.findNavController(view)
+                                            .navigate(R.id.action_checkoutFragment_to_ordersFragment);
+                                });
                             }
                             if (res.getStatus() == Resource.Status.ERROR) {
                                 String errMsg = AppErrorHandler.getFirebaseErrorMessage(res.getError());
@@ -328,6 +336,12 @@ public final class CheckoutFragment extends Fragment {
 
     private void setupPaymentMethodSelector() {
         selectMethod(PaymentMethod.COD);
+        // Announce initial selection for accessibility services
+        binding.cardPayCod.post(() -> {
+            if (binding != null) {
+                binding.cardPayCod.announceForAccessibility("Cash on Delivery selected");
+            }
+        });
 
         binding.cardPayCod.setOnClickListener(
                 v -> {

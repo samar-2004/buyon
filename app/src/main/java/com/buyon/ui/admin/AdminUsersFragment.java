@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,9 +45,13 @@ public final class AdminUsersFragment extends Fragment {
         binding.listUsers.setAdapter(adapter);
 
         vm.getUsers().observe(getViewLifecycleOwner(), users -> {
-            if (users != null) {
-                adapter.submitList(users);
+            if (users == null) return;
+            adapter.submitList(users);
+            boolean empty = users.isEmpty();
+            if (binding.emptyUsers != null) {
+                binding.emptyUsers.setVisibility(empty ? View.VISIBLE : View.GONE);
             }
+            binding.listUsers.setVisibility(empty ? View.GONE : View.VISIBLE);
         });
 
         vm.getErrorMessage().observe(getViewLifecycleOwner(), msg -> {

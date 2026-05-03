@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,6 +55,26 @@ public final class HomeFragment extends Fragment {
                 new ViewModelProvider(this, new BuyonViewModelFactory(deps)).get(HomeViewModel.class);
         WishlistViewModel wishlistVm =
                 new ViewModelProvider(this, new BuyonViewModelFactory(deps)).get(WishlistViewModel.class);
+
+        // Issue 31: time-aware greeting
+        if (binding.textGreeting != null) {
+            int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            int greetingRes;
+            if (hour < 12) {
+                greetingRes = R.string.greeting_morning;
+            } else if (hour < 17) {
+                greetingRes = R.string.greeting_afternoon;
+            } else {
+                greetingRes = R.string.greeting_evening;
+            }
+            binding.textGreeting.setText(greetingRes);
+        }
+
+        // Issue 37: "Shop Now" promo button navigates to search
+        if (binding.btnShopNow != null) {
+            binding.btnShopNow.setOnClickListener(v ->
+                    Navigation.findNavController(view).navigate(R.id.searchFragment));
+        }
 
         // Search bar taps navigate to search
         if (binding.searchInput != null) {
@@ -116,11 +137,15 @@ public final class HomeFragment extends Fragment {
         showShimmer(true);
 
         vm.getProducts().observe(getViewLifecycleOwner(), products -> {
-            showShimmer(false);
-            if (products != null) {
-                productAdapter.submitList(products);
-                productAdapter.setWishlistedIds(localWishlistIds);
+            if (products == null) {
+                // Firebase returned null — show error state, don't leave blank
+                showShimmer(false);
+                AppErrorHandler.showError(view, "Could not load products. Pull down to retry.");
+                return;
             }
+            showShimmer(false);
+            productAdapter.submitList(products);
+            productAdapter.setWishlistedIds(localWishlistIds);
         });
         wishlistVm.getWishlistIds().observe(getViewLifecycleOwner(), ids -> {
             syncLocalWishlist(ids);

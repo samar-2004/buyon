@@ -142,4 +142,51 @@
     <string name="admin_error_cancelled_locked">Cancelled orders are locked and cannot be changed.</string>
     <string name="admin_error_delivered_cannot_cancel">This order is already delivered and cannot be cancelled.</string>
     <string name="admin_error_already_cancelled">This order has already been cancelled.</string>
+    <string name="admin_confirm_status_change_title">Confirm status change</string>
+    <string name="admin_confirm_status_change_message">Mark this order as \"%1$s\"?</string>
+    <string name="admin_confirm_status_change_confirm">Confirm</string>
+
+    <!-- Empty states -->
+    <string name="admin_products_empty">No products yet.\nAdd your first product to get started.</string>
+    <string name="admin_products_empty_cta">+ Add Product</string>
+    <string name="admin_add_product_btn">+ Add</string>
+    <string name="admin_orders_empty">No orders yet</string>
+    <string name="admin_users_empty">No users found</string>
+    <string name="search_empty_title">No results found</string>
+    <string name="search_empty_subtitle">Try a different keyword or browse categories</string>
+    <string name="cart_empty_title">Your cart is empty</string>
+    <string name="cart_empty_subtitle">Discover products and add them to your cart</string>
+    <string name="cart_start_shopping">Start Shopping</string>
+
+    <!-- Greeting strings -->
+    <string name="greeting_morning">Good morning ☀️</string>
+    <string name="greeting_afternoon">Good afternoon 🌤</string>
+    <string name="greeting_evening">Good evening 🌙</string>
+    <string name="search_greeting_format">Hi, %1$s 👋</string>
+
+    <!-- Cart subtitle -->
+    <string name="cart_subtitle_format">%1$d items · %2$s</string>
+
+    <!-- Profile validation -->
+    <string name="profile_phone_digits_only">Phone number must contain digits only</string>
+    <string name="profile_phone_too_short">Phone number is too short</string>
+    <string name="profile_phone_too_long">Phone number is too long</string>
+
+    <!-- Product detail -->
+    <string name="product_description_header">Description</string>
+
+    <!-- Home promo banner -->
+    <string name="home_promo_code">BUYON20</string>
+    <string name="home_promo_offer">20% OFF your\nfirst order</string>
+    <string name="home_btn_shop_now">Shop Now</string>
+
+    <!-- Order confirmation -->
+    <string name="order_confirmation_title">Order Confirmed!</string>
+    <string name="order_confirmation_subtitle">We\'re preparing your order.\nExpect delivery in 2–5 business days.</string>
+    <string name="order_confirmation_details_header">Order Details</string>
+    <string name="order_confirmation_label_order_id">Order ID</string>
+    <string name="order_confirmation_label_payment">Payment</string>
+    <string name="order_confirmation_label_status">Status</string>
+    <string name="order_confirmation_btn_track">Track My Order</string>
+    <string name="order_confirmation_btn_continue">Continue Shopping</string>
 </resources>

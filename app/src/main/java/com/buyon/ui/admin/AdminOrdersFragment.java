@@ -46,11 +46,14 @@ public final class AdminOrdersFragment extends Fragment {
         binding.listOrders.setAdapter(adapter);
 
         vm.getOrders().observe(getViewLifecycleOwner(), orders -> {
-            if (orders != null) {
-                adapter.submitList(orders);
-                binding.orderCount.setText(
-                        getString(R.string.admin_orders_count_format, orders.size()));
+            if (orders == null) return;
+            adapter.submitList(orders);
+            binding.orderCount.setText(getString(R.string.admin_orders_count_format, orders.size()));
+            boolean empty = orders.isEmpty();
+            if (binding.emptyOrders != null) {
+                binding.emptyOrders.setVisibility(empty ? View.VISIBLE : View.GONE);
             }
+            binding.listOrders.setVisibility(empty ? View.GONE : View.VISIBLE);
         });
 
         vm.getErrorMessage().observe(getViewLifecycleOwner(), msg -> {

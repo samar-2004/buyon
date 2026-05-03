@@ -36,6 +36,7 @@ public final class PaymentViewModel extends ViewModel {
     private final MutableLiveData<Resource<String>> paymentInitResult = new MutableLiveData<>();
     private final MutableLiveData<Resource<String>> orderResult       = new MutableLiveData<>();
     private final MutableLiveData<Double>           totalAmount       = new MutableLiveData<>();
+    private final MutableLiveData<String>           cartError         = new MutableLiveData<>();
 
     private String        userId;
     private List<CartItem> cartItems = new ArrayList<>();
@@ -75,21 +76,29 @@ public final class PaymentViewModel extends ViewModel {
         // Subscribe to cart for the amount display
         cartRepository.startCartListener(userId, new RepositoryListener<List<CartItem>>() {
             @Override public void onData(List<CartItem> data) {
-                cartItems = data;
-                totalAmount.postValue(calculateTotal(data));
+                cartItems = data != null ? data : new ArrayList<>();
+                totalAmount.postValue(calculateTotal(cartItems));
             }
-            @Override public void onError(Throwable e) {}
+            @Override public void onError(Throwable e) {
+                String msg = e != null && e.getMessage() != null
+                        ? e.getMessage() : "Failed to load cart. Please go back and try again.";
+                cartError.postValue(msg);
+            }
         });
     }
 
     public LiveData<Resource<String>> getPaymentInitResult() { return paymentInitResult; }
     public LiveData<Resource<String>> getOrderResult()       { return orderResult; }
     public LiveData<Double>           getTotalAmount()       { return totalAmount; }
+    public LiveData<String>           getCartError()         { return cartError; }
     public String                     getCurrentPaymentId()  { return currentPaymentId; }
 
     /** Step 1: record payment intent in Firestore */
     public void initiatePayment() {
-        if (userId == null) return;
+        if (userId == null) {
+            paymentInitResult.setValue(Resource.error(new IllegalStateException("Not signed in. Please log in and try again.")));
+            return;
+        }
         double total = calculateTotal(cartItems);
         paymentInitResult.setValue(Resource.loading());
         paymentRepository.initiatePayment(userId, total, selectedMethod, new DomainCallback<String>() {
@@ -107,7 +116,7 @@ public final class PaymentViewModel extends ViewModel {
     public void confirmAndPlaceOrder(String gatewayTransactionRef) {
         orderResult.setValue(Resource.loading());
         if (currentPaymentId == null) {
-            placeOrderInternal("", PaymentStatus.PAID);
+            orderResult.setValue(Resource.error(new IllegalStateException("Payment session expired. Please start over.")));
             return;
         }
         paymentRepository.confirmPayment(currentPaymentId, gatewayTransactionRef, new DomainCallback<String>() {

@@ -45,6 +45,7 @@ public final class AdminAddProductFragment extends Fragment {
     private String selectedCategoryId = "";
     private String pendingCategorySelectionId = null;
     private boolean defaultCategorySeedAttempted = false;
+    private double existingRating = 0.0;
     private final List<Category> categories = new ArrayList<>();
 
     private final ActivityResultLauncher<String> imagePickerLauncher =
@@ -130,8 +131,10 @@ public final class AdminAddProductFragment extends Fragment {
             binding.btnSave.setEnabled(!loading);
             if (loading) {
                 binding.uploadIcon.setVisibility(View.GONE);
+                binding.btnSave.setText("Uploading image…");
                 return;
             }
+            binding.btnSave.setText(editingProductId != null ? "Save Product" : "Save Product");
 
             if (res.getStatus() == Resource.Status.SUCCESS && res.getData() != null) {
                 uploadedImageUrl = res.getData();
@@ -178,8 +181,8 @@ public final class AdminAddProductFragment extends Fragment {
         } else {
             try {
                 double price = Double.parseDouble(priceStr);
-                if (price < 0) {
-                    binding.layoutPrice.setError("Price cannot be negative");
+                if (price <= 0) {
+                    binding.layoutPrice.setError("Price must be greater than zero");
                     valid = false;
                 } else {
                     binding.layoutPrice.setError(null);
@@ -198,11 +201,17 @@ public final class AdminAddProductFragment extends Fragment {
         }
 
         String stockStr = getText(binding.inputStock);
-        if (!stockStr.isEmpty()) {
+        if (stockStr.isEmpty()) {
+            binding.layoutStock.setError("Stock quantity is required");
+            valid = false;
+        } else {
             try {
                 int stock = Integer.parseInt(stockStr);
                 if (stock < 0) {
                     binding.layoutStock.setError("Stock cannot be negative");
+                    valid = false;
+                } else if (stock == 0) {
+                    binding.layoutStock.setError("Stock must be at least 1 to list a product");
                     valid = false;
                 } else {
                     binding.layoutStock.setError(null);
@@ -248,8 +257,9 @@ public final class AdminAddProductFragment extends Fragment {
                     binding.inputName.setText(p.getName());
                     binding.inputPrice.setText(String.valueOf(p.getPrice()));
                     pendingCategorySelectionId = p.getCategoryId();
-                    binding.inputStock.setText(String.valueOf(p.getSoldCount()));
+                    binding.inputStock.setText(String.valueOf(p.getStockQuantity()));
                     binding.inputDescription.setText(p.getDescription());
+                    existingRating = p.getRating();
                     uploadedImageUrl = p.getImageUrl() != null ? p.getImageUrl() : "";
                     if (!uploadedImageUrl.isEmpty()) {
                         binding.uploadIcon.setVisibility(View.GONE);
@@ -288,9 +298,8 @@ public final class AdminAddProductFragment extends Fragment {
     private void saveProduct() {
         String name        = getText(binding.inputName);
         double price       = Double.parseDouble(getText(binding.inputPrice));
-        String stockStr    = getText(binding.inputStock);
+        int stock          = Integer.parseInt(getText(binding.inputStock));
         String description = getText(binding.inputDescription);
-        int stock = stockStr.isEmpty() ? 0 : Integer.parseInt(stockStr);
 
         Product product = new Product(
                 editingProductId != null ? editingProductId : "",
@@ -299,7 +308,8 @@ public final class AdminAddProductFragment extends Fragment {
                 price,
                 uploadedImageUrl,
                 selectedCategoryId,
-                4.5,
+                existingRating,
+                0,
                 stock,
                 "");
 
@@ -388,7 +398,14 @@ public final class AdminAddProductFragment extends Fragment {
                 public void onSuccess(String result) {}
 
                 @Override
-                public void onError(Throwable error) {}
+                public void onError(Throwable error) {
+                    View root = getView();
+                    if (root != null) {
+                        AppErrorHandler.showError(root,
+                                "Could not seed default categories: "
+                                        + AppErrorHandler.getFirebaseErrorMessage(error));
+                    }
+                }
             });
         }
     }

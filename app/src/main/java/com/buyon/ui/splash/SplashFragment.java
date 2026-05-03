@@ -224,6 +224,7 @@ public final class SplashFragment extends Fragment {
     }
 
     private void navigateTo(View view, SplashViewModel.Route route) {
+        if (!isAdded()) return;
         switch (route) {
             case ONBOARDING:
                 Navigation.findNavController(view)
@@ -238,8 +239,10 @@ public final class SplashFragment extends Fragment {
                         .navigate(R.id.action_splashFragment_to_homeFragment);
                 break;
             case ADMIN:
-                startActivity(new Intent(requireActivity(), AdminActivity.class));
-                requireActivity().finish();
+                if (isAdded() && !requireActivity().isFinishing()) {
+                    startActivity(new Intent(requireActivity(), AdminActivity.class));
+                    requireActivity().finish();
+                }
                 break;
         }
     }

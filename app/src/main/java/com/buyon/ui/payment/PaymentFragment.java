@@ -27,6 +27,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public final class PaymentFragment extends Fragment {
 
@@ -64,9 +65,20 @@ public final class PaymentFragment extends Fragment {
         binding.tvGatewayName.setText(method.getDisplayName());
         binding.tvTitle.setText(method.getDisplayName() + " Payment");
 
+        // Issue 10: inform user this is a simulated demo payment gateway
+        Snackbar.make(view,
+                "Demo mode: payment is simulated. No real transaction will occur.",
+                Snackbar.LENGTH_LONG).show();
+
         vm.getTotalAmount().observe(getViewLifecycleOwner(), total -> {
             if (total != null) {
                 binding.tvAmount.setText(String.format(Locale.US, "$ %.2f", total));
+            }
+        });
+
+        vm.getCartError().observe(getViewLifecycleOwner(), errMsg -> {
+            if (errMsg != null && !errMsg.isEmpty()) {
+                Snackbar.make(view, errMsg, Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -125,32 +137,58 @@ public final class PaymentFragment extends Fragment {
 
     // ── Form validation ─────────────────────────────────────────────────
 
+    private static final Pattern DIGITS_ONLY = Pattern.compile("^[0-9]+$");
+
     private boolean validateForm() {
+        boolean valid = true;
+
         String mobile = binding.inputMobile.getText() != null
                 ? binding.inputMobile.getText().toString().trim() : "";
-        String cnic   = binding.inputCnic.getText() != null
-                ? binding.inputCnic.getText().toString().trim()   : "";
-        String pin    = binding.inputPin.getText() != null
-                ? binding.inputPin.getText().toString().trim()    : "";
-
-        if (mobile.length() != 11) {
-            binding.layoutMobile.setError("Enter a valid 11-digit mobile number");
-            return false;
+        if (mobile.isEmpty()) {
+            binding.layoutMobile.setError("Mobile number is required");
+            valid = false;
+        } else if (!DIGITS_ONLY.matcher(mobile).matches()) {
+            binding.layoutMobile.setError("Mobile number must contain digits only");
+            valid = false;
+        } else if (mobile.length() != 11) {
+            binding.layoutMobile.setError(mobile.length() < 11
+                    ? "Mobile number is too short — must be 11 digits"
+                    : "Mobile number is too long — must be 11 digits");
+            valid = false;
+        } else {
+            binding.layoutMobile.setError(null);
         }
-        binding.layoutMobile.setError(null);
 
-        if (cnic.length() != 6) {
-            binding.layoutCnic.setError("Enter last 6 digits of your CNIC");
-            return false;
+        String cnic = binding.inputCnic.getText() != null
+                ? binding.inputCnic.getText().toString().trim() : "";
+        if (cnic.isEmpty()) {
+            binding.layoutCnic.setError("CNIC digits are required");
+            valid = false;
+        } else if (!DIGITS_ONLY.matcher(cnic).matches()) {
+            binding.layoutCnic.setError("CNIC must contain digits only");
+            valid = false;
+        } else if (cnic.length() != 6) {
+            binding.layoutCnic.setError(cnic.length() < 6
+                    ? "Enter all 6 digits of your CNIC (too short)"
+                    : "Enter only the last 6 digits of your CNIC");
+            valid = false;
+        } else {
+            binding.layoutCnic.setError(null);
         }
-        binding.layoutCnic.setError(null);
 
-        if (pin.length() < 4) {
-            binding.layoutPin.setError("Enter your mPIN / OTP");
-            return false;
+        String pin = binding.inputPin.getText() != null
+                ? binding.inputPin.getText().toString().trim() : "";
+        if (pin.isEmpty()) {
+            binding.layoutPin.setError("mPIN / OTP is required");
+            valid = false;
+        } else if (pin.length() < 4) {
+            binding.layoutPin.setError("mPIN must be at least 4 digits");
+            valid = false;
+        } else {
+            binding.layoutPin.setError(null);
         }
-        binding.layoutPin.setError(null);
-        return true;
+
+        return valid;
     }
 
     // ── Animations ──────────────────────────────────────────────────────

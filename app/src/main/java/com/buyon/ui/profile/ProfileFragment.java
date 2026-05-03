@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.regex.Pattern;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,6 +26,7 @@ import com.buyon.ui.viewmodel.ProfileViewModel;
 
 public final class ProfileFragment extends Fragment {
 
+    private static final Pattern DIGITS_ONLY = Pattern.compile("^[0-9]+$");
     private FragmentProfileBinding binding;
 
     @Nullable @Override
@@ -71,6 +74,22 @@ public final class ProfileFragment extends Fragment {
             String name    = binding.inputName.getText()    != null ? binding.inputName.getText().toString().trim()    : "";
             String phone   = binding.inputPhone.getText()   != null ? binding.inputPhone.getText().toString().trim()   : "";
             String address = binding.inputAddress.getText() != null ? binding.inputAddress.getText().toString().trim() : "";
+
+            if (binding.layoutPhone != null) binding.layoutPhone.setError(null);
+            if (!phone.isEmpty()) {
+                if (!DIGITS_ONLY.matcher(phone).matches()) {
+                    if (binding.layoutPhone != null) binding.layoutPhone.setError(getString(R.string.profile_phone_digits_only));
+                    return;
+                }
+                if (phone.length() < 10) {
+                    if (binding.layoutPhone != null) binding.layoutPhone.setError(getString(R.string.profile_phone_too_short));
+                    return;
+                }
+                if (phone.length() > 15) {
+                    if (binding.layoutPhone != null) binding.layoutPhone.setError(getString(R.string.profile_phone_too_long));
+                    return;
+                }
+            }
             vm.save(name, phone, address);
         });
 

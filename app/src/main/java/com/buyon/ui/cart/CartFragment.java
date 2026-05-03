@@ -27,6 +27,8 @@ import java.util.Locale;
 
 public final class CartFragment extends Fragment {
 
+    private static final double DISCOUNT_THRESHOLD = 0.001;
+
     private FragmentCartBinding binding;
     private CartAdapter adapter;
     private CartViewModel vm;
@@ -79,6 +81,11 @@ public final class CartFragment extends Fragment {
                             .navigate(R.id.action_cartFragment_to_checkoutFragment);
                 });
 
+        if (binding.btnStartShopping != null) {
+            binding.btnStartShopping.setOnClickListener(
+                    v -> Navigation.findNavController(view).navigate(R.id.homeFragment));
+        }
+
         vm.getItems()
                 .observe(
                         getViewLifecycleOwner(),
@@ -121,17 +128,15 @@ public final class CartFragment extends Fragment {
             units += c.getQuantity();
         }
         binding.textCartSubtitle.setText(
-                getString(R.string.cart_items_format, units)
-                        + " · "
-                        + getString(R.string.cart_promo_banner));
+                getString(R.string.cart_subtitle_format, units, getString(R.string.cart_promo_banner)));
 
         binding.cartValueSubtotal.setText(money(sub));
         binding.cartValueDiscount.setText("- " + money(discount));
         binding.cartValueShipping.setText(money(ship));
         binding.total.setText(money(total));
 
-        binding.cartRowDiscount.setVisibility(discount > 0.001 ? View.VISIBLE : View.GONE);
-        if (discount > 0.001) {
+        binding.cartRowDiscount.setVisibility(discount > DISCOUNT_THRESHOLD ? View.VISIBLE : View.GONE);
+        if (discount > DISCOUNT_THRESHOLD) {
             binding.textCartSavings.setVisibility(View.VISIBLE);
             binding.textCartSavings.setText(getString(R.string.cart_savings_line, money(discount)));
         } else {
