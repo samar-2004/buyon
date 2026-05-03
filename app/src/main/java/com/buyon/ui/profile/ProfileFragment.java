@@ -6,8 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.regex.Pattern;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -24,6 +29,7 @@ import com.buyon.ui.viewmodel.ProfileViewModel;
 
 public final class ProfileFragment extends Fragment {
 
+    private static final Pattern DIGITS_ONLY = Pattern.compile("^[0-9]+$");
     private FragmentProfileBinding binding;
 
     @Nullable @Override
@@ -37,6 +43,7 @@ public final class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        applyStatusBarPadding();
         AppDependencies deps = (AppDependencies) requireActivity().getApplication();
         ProfileViewModel vm =
                 new ViewModelProvider(this, new BuyonViewModelFactory(deps))
@@ -71,6 +78,22 @@ public final class ProfileFragment extends Fragment {
             String name    = binding.inputName.getText()    != null ? binding.inputName.getText().toString().trim()    : "";
             String phone   = binding.inputPhone.getText()   != null ? binding.inputPhone.getText().toString().trim()   : "";
             String address = binding.inputAddress.getText() != null ? binding.inputAddress.getText().toString().trim() : "";
+
+            if (binding.layoutPhone != null) binding.layoutPhone.setError(null);
+            if (!phone.isEmpty()) {
+                if (!DIGITS_ONLY.matcher(phone).matches()) {
+                    if (binding.layoutPhone != null) binding.layoutPhone.setError(getString(R.string.profile_phone_digits_only));
+                    return;
+                }
+                if (phone.length() < 10) {
+                    if (binding.layoutPhone != null) binding.layoutPhone.setError(getString(R.string.profile_phone_too_short));
+                    return;
+                }
+                if (phone.length() > 15) {
+                    if (binding.layoutPhone != null) binding.layoutPhone.setError(getString(R.string.profile_phone_too_long));
+                    return;
+                }
+            }
             vm.save(name, phone, address);
         });
 
@@ -110,6 +133,19 @@ public final class ProfileFragment extends Fragment {
         if (p.getPhone()                  != null && !p.getPhone().isEmpty())                  binding.inputPhone.setText(p.getPhone());
         if (p.getDefaultShippingAddress() != null && !p.getDefaultShippingAddress().isEmpty()) binding.inputAddress.setText(p.getDefaultShippingAddress());
         if (p.getEmail()                  != null && !p.getEmail().isEmpty())                  binding.email.setText(p.getEmail());
+    }
+
+    private void applyStatusBarPadding() {
+        int basePaddingTop = binding.profileHeroHeader.getPaddingTop();
+        ViewCompat.setOnApplyWindowInsetsListener(binding.profileHeroHeader, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(
+                    v.getPaddingLeft(),
+                    basePaddingTop + bars.top,
+                    v.getPaddingRight(),
+                    v.getPaddingBottom());
+            return insets;
+        });
     }
 
     @Override

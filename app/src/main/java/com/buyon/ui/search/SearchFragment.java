@@ -8,6 +8,9 @@ import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -47,6 +50,7 @@ public final class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        applyStatusBarPadding();
         AppDependencies deps = (AppDependencies) requireActivity().getApplication();
         SearchViewModel vm =
                 new ViewModelProvider(this, new BuyonViewModelFactory(deps)).get(SearchViewModel.class);
@@ -114,9 +118,37 @@ public final class SearchFragment extends Fragment {
                     vm.search(q != null ? q.toString() : "");
                 });
 
+        // Issue 53: personalise greeting with user display name
+        String currentName = deps.authRepository().currentUserEmail();
+        if (binding.labelGreeting != null && currentName != null && !currentName.isEmpty()) {
+            String displayName = currentName.contains("@")
+                    ? currentName.substring(0, currentName.indexOf('@')) : currentName;
+            binding.labelGreeting.setText(getString(R.string.search_greeting_format, displayName));
+            binding.labelGreeting.setVisibility(View.VISIBLE);
+        }
+
         vm.getProducts().observe(getViewLifecycleOwner(), products -> {
+            if (binding == null) return;
+            boolean empty = products == null || products.isEmpty();
             productAdapter.submitList(products);
             productAdapter.setWishlistedIds(localWishlistIds);
+            if (binding.emptySearch != null) {
+                binding.emptySearch.setVisibility(empty ? View.VISIBLE : View.GONE);
+            }
+            if (binding.listProducts != null) {
+                binding.listProducts.setVisibility(empty ? View.GONE : View.VISIBLE);
+            }
+        });
+
+        vm.getLoading().observe(getViewLifecycleOwner(), loading -> {
+            if (binding == null) return;
+            boolean isLoading = Boolean.TRUE.equals(loading);
+            if (binding.progressSearch != null) {
+                binding.progressSearch.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
+            if (isLoading && binding.emptySearch != null) {
+                binding.emptySearch.setVisibility(View.GONE);
+            }
         });
         wishlistVm.getWishlistIds().observe(getViewLifecycleOwner(), ids -> {
             syncLocalWishlist(ids);
@@ -158,6 +190,19 @@ public final class SearchFragment extends Fragment {
     private void showWishlistSnack(View view, boolean added) {
         int msgRes = added ? R.string.wishlist_added : R.string.wishlist_removed;
         Snackbar.make(view, msgRes, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void applyStatusBarPadding() {
+        int basePaddingTop = binding.header.getPaddingTop();
+        ViewCompat.setOnApplyWindowInsetsListener(binding.header, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            v.setPadding(
+                    v.getPaddingLeft(),
+                    basePaddingTop + bars.top,
+                    v.getPaddingRight(),
+                    v.getPaddingBottom());
+            return insets;
+        });
     }
 
     @Override

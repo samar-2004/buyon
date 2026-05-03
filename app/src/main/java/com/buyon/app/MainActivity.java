@@ -14,6 +14,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.buyon.app.databinding.ActivityMainBinding;
+import com.buyon.ui.BuyonViewModelFactory;
+import com.buyon.ui.viewmodel.CartViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -36,6 +38,7 @@ public final class MainActivity extends BaseActivity {
 
         setupWindowInsets();
         setupNavigation();
+        setupCartBadge();
         handleIntentNavigation(getIntent());
     }
 
@@ -139,6 +142,34 @@ public final class MainActivity extends BaseActivity {
     // ─────────────────────────────────────────────────────────────────────────
     // BottomNav show / hide animations
     // ─────────────────────────────────────────────────────────────────────────
+
+    private void setupCartBadge() {
+        com.buyon.core.di.AppDependencies deps =
+                (com.buyon.core.di.AppDependencies) getApplication();
+        CartViewModel cartVm =
+                new androidx.lifecycle.ViewModelProvider(this, new BuyonViewModelFactory(deps))
+                        .get(CartViewModel.class);
+        cartVm.getItems().observe(this, items -> {
+            int count = 0;
+            if (items != null) {
+                for (com.buyon.domain.model.CartItem item : items) {
+                    count += item.getQuantity();
+                }
+            }
+            if (count > 0) {
+                com.google.android.material.badge.BadgeDrawable badge = binding.bottomNav.getOrCreateBadge(R.id.cartFragment);
+                badge.setVisible(true);
+                badge.setNumber(count);
+            } else {
+                com.google.android.material.badge.BadgeDrawable badge = binding.bottomNav.getBadge(R.id.cartFragment);
+                if (badge != null) {
+                    badge.setVisible(false);
+                    badge.clearNumber();
+                }
+                binding.bottomNav.removeBadge(R.id.cartFragment);
+            }
+        });
+    }
 
     private void animateBottomNavOut(View view) {
         view.animate()

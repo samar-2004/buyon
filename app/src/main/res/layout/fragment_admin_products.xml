@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/buyon_bg_secondary"
+    android:background="@color/buyon_bg_primary"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/buyon_primary"
+        android:fitsSystemWindows="true"
         app:elevation="0dp">
 
         <LinearLayout
@@ -57,7 +58,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Products"
+                    android:text="@string/admin_products"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_title_large"
                     android:textStyle="bold" />
@@ -71,7 +72,7 @@
                 android:minHeight="0dp"
                 android:paddingStart="@dimen/spacing_l"
                 android:paddingEnd="@dimen/spacing_l"
-                android:text="+ Add"
+                android:text="@string/admin_add_product_btn"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_body_small"
                 app:strokeColor="#80FFFFFF"
@@ -93,14 +94,33 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_admin_product" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="No products yet"
-        android:textAppearance="@style/TextAppearance.Buyon.BodySecondary"
-        android:textSize="@dimen/text_title_small"
-        android:visibility="gone" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_xxxl"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/admin_products_empty"
+            android:textAppearance="@style/TextAppearance.Buyon.BodySecondary"
+            android:textSize="@dimen/text_title_small" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_empty_add_product"
+            style="@style/Widget.Buyon.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_xxl"
+            android:paddingStart="@dimen/spacing_xxl"
+            android:paddingEnd="@dimen/spacing_xxl"
+            android:text="@string/admin_products_empty_cta" />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -22,6 +22,7 @@ final class FirestoreMappers {
         Double price  = doc.getDouble("price");
         Double rating = doc.getDouble("rating");
         Long sold     = doc.getLong("soldCount");
+        Long stock    = doc.getLong("stockQuantity");
         return new Product(
                 doc.getId(),
                 str(doc.getString("name")),
@@ -31,6 +32,7 @@ final class FirestoreMappers {
                 str(doc.getString("categoryId")),
                 rating != null ? rating : 0,
                 sold   != null ? sold.intValue() : 0,
+                stock  != null ? stock.intValue() : 0,
                 str(doc.getString("locationLabel")));
     }
 

@@ -11,6 +11,7 @@ public final class Product {
     private final String categoryId;
     private final double rating;
     private final int soldCount;
+    private final int stockQuantity;
     private final String locationLabel;
 
     public Product(
@@ -22,6 +23,7 @@ public final class Product {
             String categoryId,
             double rating,
             int soldCount,
+            int stockQuantity,
             String locationLabel) {
         this.id = id;
         this.name = name;
@@ -31,6 +33,7 @@ public final class Product {
         this.categoryId = categoryId;
         this.rating = rating;
         this.soldCount = soldCount;
+        this.stockQuantity = stockQuantity;
         this.locationLabel = locationLabel;
     }
 
@@ -64,6 +67,10 @@ public final class Product {
 
     public int getSoldCount() {
         return soldCount;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
     }
 
     public String getLocationLabel() {

@@ -171,7 +171,16 @@ public final class AdminOrderAdapter extends ListAdapter<Order, AdminOrderAdapte
                                     showCancellationReasonDialog(context, order);
                                     return;
                                 }
-                                vm.updateOrderStatus(order.getId(), target.name());
+                                String targetLabel = OrderStatusFormatter.label(context, target);
+                                new MaterialAlertDialogBuilder(context)
+                                        .setTitle(R.string.admin_confirm_status_change_title)
+                                        .setMessage(context.getString(
+                                                R.string.admin_confirm_status_change_message,
+                                                targetLabel))
+                                        .setPositiveButton(R.string.admin_confirm_status_change_confirm,
+                                                (d, w) -> vm.updateOrderStatus(order.getId(), target.name()))
+                                        .setNegativeButton(android.R.string.cancel, null)
+                                        .show();
                             })
                     .setNegativeButton(android.R.string.cancel, null)
                     .show();

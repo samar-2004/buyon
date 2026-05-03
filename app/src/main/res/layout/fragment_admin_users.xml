@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/buyon_bg_secondary"
+    android:background="@color/buyon_bg_primary"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/buyon_primary"
+        android:fitsSystemWindows="true"
         app:elevation="0dp">
 
         <LinearLayout
@@ -57,7 +58,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Users"
+                    android:text="@string/admin_users"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_title_large"
                     android:textStyle="bold" />
@@ -77,5 +78,16 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_admin_user" />
+
+    <TextView
+        android:id="@+id/empty_users"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/admin_users_empty"
+        android:textAppearance="@style/TextAppearance.Buyon.BodySecondary"
+        android:textSize="@dimen/text_title_small"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/buyon_bg_secondary"
+    android:background="@color/buyon_bg_primary"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_cart"
         style="@style/Widget.Buyon.AppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_xxl"
-            android:text="Your cart is empty"
+            android:text="@string/cart_empty_title"
             android:textAppearance="@style/TextAppearance.Buyon.Title" />
 
         <TextView
@@ -127,8 +128,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_s"
             android:gravity="center"
-            android:text="Discover products and add them to your cart"
+            android:text="@string/cart_empty_subtitle"
             android:textAppearance="@style/TextAppearance.Buyon.BodySecondary" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start_shopping"
+            style="@style/Widget.Buyon.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_xxl"
+            android:paddingStart="@dimen/spacing_xxl"
+            android:paddingEnd="@dimen/spacing_xxl"
+            android:text="@string/cart_start_shopping" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

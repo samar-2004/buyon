@@ -36,7 +36,7 @@
                 android:layout_marginTop="24dp"
                 android:alpha="0"
                 android:fontFamily="sans-serif-medium"
-                android:text="Order Confirmed!"
+                android:text="@string/order_confirmation_title"
                 android:textColor="@color/buyon_text_primary"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -48,7 +48,7 @@
                 android:layout_marginTop="8dp"
                 android:alpha="0"
                 android:gravity="center"
-                android:text="We're preparing your order.\nExpect delivery in 2-5 business days."
+                android:text="@string/order_confirmation_subtitle"
                 android:textColor="@color/buyon_text_secondary"
                 android:textSize="14sp" />
 
@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Order Details"
+                        android:text="@string/order_confirmation_details_header"
                         android:textColor="@color/buyon_text_primary"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -97,7 +97,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Order ID"
+                            android:text="@string/order_confirmation_label_order_id"
                             android:textColor="@color/buyon_text_secondary"
                             android:textSize="13sp" />
 
@@ -123,7 +123,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Payment"
+                            android:text="@string/order_confirmation_label_payment"
                             android:textColor="@color/buyon_text_secondary"
                             android:textSize="13sp" />
 
@@ -149,7 +149,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Status"
+                            android:text="@string/order_confirmation_label_status"
                             android:textColor="@color/buyon_text_secondary"
                             android:textSize="13sp" />
 
@@ -173,7 +173,7 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/spacing_xxl"
                 android:alpha="0"
-                android:text="Track My Order"
+                android:text="@string/order_confirmation_btn_track"
                 android:textSize="@dimen/text_subtitle" />
 
             <!-- Continue shopping -->
@@ -184,7 +184,7 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/spacing_m"
                 android:alpha="0"
-                android:text="Continue Shopping"
+                android:text="@string/order_confirmation_btn_continue"
                 android:textColor="@color/buyon_primary"
                 android:textSize="@dimen/text_subtitle"
                 app:strokeWidth="0dp" />
