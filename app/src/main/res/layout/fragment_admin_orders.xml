@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/buyon_bg_primary"
+    android:background="@color/buyon_bg_secondary"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
-        style="@style/Widget.Buyon.AppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/buyon_primary"
+        app:elevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,29 +19,65 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="@dimen/screen_horizontal_padding"
-            android:paddingTop="@dimen/spacing_l"
+            android:paddingTop="@dimen/spacing_xxl"
             android:paddingEnd="@dimen/screen_horizontal_padding"
-            android:paddingBottom="@dimen/spacing_m">
+            android:paddingBottom="@dimen/spacing_xxl">
 
-            <TextView
+            <!-- Icon -->
+            <FrameLayout
+                android:layout_width="@dimen/icon_xl"
+                android:layout_height="@dimen/icon_xl"
+                android:background="@drawable/bg_circle_surface">
+
+                <ImageView
+                    android:layout_width="@dimen/icon_m"
+                    android:layout_height="@dimen/icon_m"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_admin_orders"
+                    android:tint="@color/buyon_primary" />
+            </FrameLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_m"
                 android:layout_weight="1"
-                android:text="All Orders"
-                android:textAppearance="@style/TextAppearance.Buyon.Headline" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADMIN"
+                    android:textColor="#80FFFFFF"
+                    android:letterSpacing="0.1"
+                    android:textSize="@dimen/text_caption"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="All Orders"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_title_large"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/order_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_category_chip_selected"
+                android:background="@drawable/bg_circle_surface"
+                android:gravity="center"
+                android:minWidth="40dp"
                 android:paddingStart="@dimen/spacing_m"
-                android:paddingTop="@dimen/spacing_xs"
+                android:paddingTop="@dimen/spacing_s"
                 android:paddingEnd="@dimen/spacing_m"
-                android:paddingBottom="@dimen/spacing_xs"
-                android:textColor="@color/white"
+                android:paddingBottom="@dimen/spacing_s"
+                android:textColor="@color/buyon_primary"
                 android:textSize="@dimen/text_label"
-                tools:text="248 orders" />
+                android:textStyle="bold"
+                tools:text="248" />
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -49,10 +86,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="24dp"
+        android:paddingStart="@dimen/content_horizontal_padding"
+        android:paddingTop="@dimen/spacing_m"
+        android:paddingEnd="@dimen/content_horizontal_padding"
+        android:paddingBottom="@dimen/spacing_xxl"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_admin_order" />

@@ -67,7 +67,8 @@
                 android:background="@drawable/bg_circle_surface"
                 android:contentDescription="@string/wishlist_title"
                 android:padding="@dimen/spacing_s"
-                android:src="@drawable/ic_heart_outline" />
+                android:src="@drawable/ic_heart_outline"
+                android:tint="@color/buyon_primary" />
         </LinearLayout>
 
         <!-- Search bar -->
@@ -112,7 +113,8 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/buyon_bg_secondary">
 
             <LinearLayout
                 android:layout_width="match_parent"

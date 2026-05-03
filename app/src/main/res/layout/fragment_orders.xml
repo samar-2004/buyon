@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/buyon_bg_primary"
+    android:background="@color/buyon_bg_secondary"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -22,9 +22,19 @@
             android:paddingEnd="@dimen/screen_horizontal_padding"
             android:paddingBottom="@dimen/spacing_m">
 
+            <ImageView
+                android:layout_width="@dimen/icon_button"
+                android:layout_height="@dimen/icon_button"
+                android:background="@drawable/bg_circle_surface"
+                android:contentDescription="@null"
+                android:padding="@dimen/spacing_s"
+                android:src="@drawable/ic_orders"
+                android:tint="@color/buyon_primary" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_m"
                 android:layout_weight="1"
                 android:text="@string/orders_title"
                 android:textAppearance="@style/TextAppearance.Buyon.Headline" />
@@ -42,10 +52,19 @@
         android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <View
+        <FrameLayout
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@drawable/bg_admin_card_purple" />
+            android:background="@drawable/bg_circle_primary">
+
+            <ImageView
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_orders"
+                android:tint="@color/white" />
+        </FrameLayout>
 
         <TextView
             android:layout_width="wrap_content"

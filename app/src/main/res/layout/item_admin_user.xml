@@ -17,10 +17,19 @@
         android:orientation="horizontal"
         android:padding="@dimen/spacing_l">
 
-        <View
+        <FrameLayout
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:background="@drawable/bg_circle_surface" />
+            android:background="@drawable/bg_circle_surface">
+
+            <ImageView
+                android:layout_width="@dimen/icon_m"
+                android:layout_height="@dimen/icon_m"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_profile"
+                android:tint="@color/buyon_text_secondary" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"

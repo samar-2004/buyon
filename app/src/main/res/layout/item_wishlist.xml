@@ -82,7 +82,8 @@
             android:background="@drawable/bg_circle_surface"
             android:contentDescription="@string/wishlist_remove"
             android:padding="@dimen/spacing_s"
-            android:src="@drawable/ic_delete" />
+            android:src="@drawable/ic_delete"
+            android:tint="@color/buyon_error" />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -86,7 +86,8 @@
                 android:background="@drawable/bg_circle_surface"
                 android:contentDescription="@null"
                 android:padding="@dimen/spacing_s"
-                android:src="@drawable/ic_minus" />
+                android:src="@drawable/ic_minus"
+                android:tint="@color/buyon_text_primary" />
 
             <TextView
                 android:id="@+id/quantity"
@@ -105,7 +106,8 @@
                 android:background="@drawable/bg_circle_primary"
                 android:contentDescription="@null"
                 android:padding="@dimen/spacing_s"
-                android:src="@drawable/ic_add" />
+                android:src="@drawable/ic_add"
+                android:tint="@color/white" />
         </LinearLayout>
 
         <ImageView
@@ -116,6 +118,7 @@
             android:contentDescription="@null"
             android:padding="@dimen/spacing_s"
             android:src="@drawable/ic_delete"
+            android:tint="@color/buyon_error"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

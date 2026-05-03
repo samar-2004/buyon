@@ -60,7 +60,8 @@
                     android:layout_width="@dimen/icon_xs"
                     android:layout_height="@dimen/icon_xs"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_star" />
+                    android:src="@drawable/ic_star"
+                    android:tint="@color/status_pending" />
 
                 <TextView
                     android:id="@+id/meta"
@@ -88,7 +89,8 @@
             android:contentDescription="@string/wishlist_toggle"
             android:padding="@dimen/spacing_s"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_heart_outline" />
+            android:src="@drawable/ic_heart_outline"
+            android:tint="@color/buyon_text_secondary" />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

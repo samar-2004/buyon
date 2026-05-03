@@ -73,7 +73,8 @@
                 android:background="@drawable/bg_circle_surface"
                 android:contentDescription="@null"
                 android:padding="@dimen/spacing_s"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/ic_edit"
+                android:tint="@color/buyon_text_primary" />
 
             <ImageView
                 android:id="@+id/btn_delete"
@@ -83,7 +84,8 @@
                 android:background="@drawable/bg_circle_surface"
                 android:contentDescription="@null"
                 android:padding="@dimen/spacing_s"
-                android:src="@drawable/ic_delete" />
+                android:src="@drawable/ic_delete"
+                android:tint="@color/buyon_error" />
         </LinearLayout>
     </LinearLayout>
 
